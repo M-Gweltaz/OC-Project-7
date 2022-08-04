@@ -1,0 +1,291 @@
+/* RESET */
+html,
+body,
+p,
+ol,
+ul,
+li,
+dl,
+dt,
+dd,
+blockquote,
+figure,
+fieldset,
+legend,
+textarea,
+pre,
+iframe,
+hr,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
+	padding: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: 100%;
+	font-weight: normal;
+}
+ul {
+	list-style: none;
+}
+button,
+input,
+select {
+	margin: 0;
+}
+html {
+	box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+img,
+video {
+	height: auto;
+	max-width: 100%;
+}
+iframe {
+	border: 0;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+td,
+th {
+	padding: 0;
+}
+/* END OF RESET */
+
+/* FONT USED
+font-family: 'DM Sans', sans-serif;
+font-family: 'Lato', sans-serif;
+font-family: 'Roboto', sans-serif;
+*/
+
+.banner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 3em 0 1em 0;
+}
+
+.banner__img {
+	width: 3em;
+}
+
+.banner__title {
+	text-align: center;
+	color: #d04f4f;
+	font-size: 2em;
+	font-weight: 600;
+	font-family: 'DM Sans', sans-serif;
+}
+
+main {
+	width: 90vw;
+	margin: auto;
+	font-family: 'Lato', sans-serif;
+}
+
+.searchBar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 90vw;
+}
+
+.searchBar__input {
+	width: 100%;
+	height: 2.5em;
+	margin-top: 2em;
+	background-color: #e7e7e7;
+	border: none;
+	border-radius: 0.5em;
+	padding: 0.25em 2em;
+	font-size: 1.5em;
+}
+
+.searchBar__svg {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	position: relative;
+	bottom: -22.5px;
+	right: 70px;
+	background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iNTAiIGhlaWdodD0iNTAiCnZpZXdCb3g9IjAgMCA1MCA1MCIKc3R5bGU9IiBmaWxsOiMwMDAwMDA7Ij48cGF0aCBkPSJNIDIxIDMgQyAxMS42MDE1NjMgMyA0IDEwLjYwMTU2MyA0IDIwIEMgNCAyOS4zOTg0MzggMTEuNjAxNTYzIDM3IDIxIDM3IEMgMjQuMzU1NDY5IDM3IDI3LjQ2MDkzOCAzNi4wMTU2MjUgMzAuMDkzNzUgMzQuMzQzNzUgTCA0Mi4zNzUgNDYuNjI1IEwgNDYuNjI1IDQyLjM3NSBMIDM0LjUgMzAuMjgxMjUgQyAzNi42Nzk2ODggMjcuNDIxODc1IDM4IDIzLjg3ODkwNiAzOCAyMCBDIDM4IDEwLjYwMTU2MyAzMC4zOTg0MzggMyAyMSAzIFogTSAyMSA3IEMgMjguMTk5MjE5IDcgMzQgMTIuODAwNzgxIDM0IDIwIEMgMzQgMjcuMTk5MjE5IDI4LjE5OTIxOSAzMyAyMSAzMyBDIDEzLjgwMDc4MSAzMyA4IDI3LjE5OTIxOSA4IDIwIEMgOCAxMi44MDA3ODEgMTMuODAwNzgxIDcgMjEgNyBaIj48L3BhdGg+PC9zdmc+')
+		50% 50% no-repeat;
+	background-size: 100%;
+}
+
+.searchBarModifier__tagSelected {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0.5em 0;
+}
+
+.searchBarModifier__tagSelected div {
+	display: flex;
+	justify-content: space-between;
+	color: white;
+	padding: 0.5em;
+	border-radius: 0.5em;
+	margin: 0.5em 0.5em 0 0;
+}
+.searchBarModifier__tagSelected svg {
+	margin-left: 1em;
+	cursor: pointer;
+}
+
+.ingredientsColor {
+	background-color: #3282f7;
+}
+
+.appliancesColor {
+	background-color: #68d9a4;
+}
+
+.ustensilsColor {
+	background-color: #ed6454;
+}
+
+.searchBarModifier__input {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+}
+
+.searchBarModifier__input div ::placeholder {
+	color: white;
+}
+
+.searchBarModifier__input input {
+	padding: 1em 1em;
+	margin: 0.25em;
+	border: none;
+	color: white;
+	font-size: 1.2em;
+	border-radius: 0.5em;
+}
+
+.searchBarModifier__input--svg {
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+	bottom: -6px;
+	right: 3em;
+	width: 25px;
+	height: 25px;
+	background-size: 100%;
+	background: url('./assets/chevron-down.svg') 50% 50% no-repeat;
+}
+
+.inputSvgOpen {
+	right: -0.7em;
+	background: url('./assets/chevron-up.svg') 50% 50% no-repeat;
+}
+
+.tagSearchBarClose {
+	display: none;
+}
+
+.tagSearchBarOpen {
+	color: white;
+	border-radius: 0.5em;
+	padding: 0.5em;
+	width: 650px;
+	margin: 0 0.5em 0.5em 0;
+}
+
+.tagSearchBarOpen input {
+	width: 90%;
+}
+
+.tagSearchBarOpen ul {
+	display: grid;
+	width: 100%;
+	justify-content: space-around;
+	align-items: center;
+	grid-template-columns: repeat(auto-fill, 200px);
+	grid-gap: 0.3em;
+}
+
+.searchResults {
+	margin: 1em 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 450px);
+	grid-gap: 50px;
+	grid-auto-rows: minmax(100px, auto);
+	height: auto;
+	justify-content: space-around;
+	align-items: start;
+}
+
+.recipeCard__img {
+	height: 200px;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.692);
+}
+
+.recipeCard__description {
+	background-color: #eee;
+	padding: 0.75em;
+	height: 200px;
+	overflow: hidden;
+	text-overflow: clip;
+}
+
+.recipeCard__header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.recipeCard__header--title {
+	font-size: 1.125em;
+}
+
+.recipeCard__header--timer {
+	width: 30%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: bolder;
+}
+
+.recipeCard__header--timer svg {
+	margin-right: 0.5em;
+}
+
+.recipeCard__infos {
+	display: flex;
+	margin-top: 1em;
+	font-size: 0.75em;
+}
+
+.recipeCard__infos--ingredients {
+	width: 50%;
+}
+
+.recipeCard__infos--ingredients p {
+	padding-bottom: 0.5em;
+}
+
+.recipeCard__infos--ingredients span {
+	font-weight: bold;
+}
+.recipeCard__infos--steps {
+	width: 50%;
+	font-family: 'Roboto', sans-serif;
+}
