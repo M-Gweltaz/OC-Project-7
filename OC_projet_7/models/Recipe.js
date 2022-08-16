@@ -42,7 +42,7 @@ export class Recipe {
 		let lightDescription = description;
 		if (description.length > 350) {
 			lightDescription = description.slice(0, 350);
-			lightDescription = keptDescription += '...';
+			lightDescription = lightDescription += '...';
 		}
 
 		let newRecipeCard = document.createElement('div');
@@ -79,5 +79,60 @@ export class Recipe {
         </div>`;
 		const searchResultList = document.querySelector('.searchResults');
 		searchResultList.append(newRecipeCard);
+	}
+
+	// getting all ingredients from all recipes
+	getIngredientsTagList(id, ingredients, ingredientsTagList) {
+		ingredients.forEach((ingredient) => {
+			let ingredientNotAdded = true;
+			// checking if the ustensil already exist
+			ingredientsTagList.forEach((ingredientTag) => {
+				if (ingredientTag.ingredient === ingredient.ingredient) {
+					ingredientTag.id.push(id);
+					ingredientNotAdded = false;
+				}
+			});
+			// else create a new entry
+			if (ingredientNotAdded == true) {
+				ingredientsTagList.push({
+					ingredient: ingredient.ingredient,
+					id: [id],
+				});
+			}
+		});
+	}
+
+	// getting all appliances from all recipes
+	getApplianceTagList(id, appliance, appliancesTagList) {
+		let applianceNotAdded = true;
+		// checking if the appliance already exist
+		appliancesTagList.forEach((applianceTag) => {
+			if (applianceTag.appliance === appliance) {
+				applianceTag.id.push(id);
+				applianceNotAdded = false;
+			}
+		});
+		// else create a new entry
+		if (applianceNotAdded == true) {
+			appliancesTagList.push({ appliance: appliance, id: [id] });
+		}
+	}
+
+	// getting all ustensils from all recipes
+	getUstensilsTagList(id, ustensils, ustensilsTagList) {
+		ustensils.forEach((ustensil) => {
+			let ustensilNotAdded = true;
+			// checking if the ustensil already exist
+			ustensilsTagList.forEach((ustensilTag) => {
+				if (ustensilTag.ustensil === ustensil) {
+					ustensilTag.id.push(id);
+					ustensilNotAdded = false;
+				}
+			});
+			// else create a new entry
+			if (ustensilNotAdded == true) {
+				ustensilsTagList.push({ ustensil: ustensil, id: [id] });
+			}
+		});
 	}
 }

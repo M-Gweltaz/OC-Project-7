@@ -165,6 +165,7 @@ main {
 	display: flex;
 	flex-wrap: wrap;
 	position: relative;
+	align-items: flex-start;
 }
 
 .searchBarModifier__input div ::placeholder {
@@ -174,10 +175,15 @@ main {
 .searchBarModifier__input input {
 	padding: 1em 1em;
 	margin: 0.25em;
+	margin-right: -0.5em;
 	border: none;
 	color: white;
 	font-size: 1.2em;
 	border-radius: 0.5em;
+}
+
+.searchBarModifier__input input :focus {
+	border: none;
 }
 
 .searchBarModifier__input--svg {
@@ -195,6 +201,10 @@ main {
 .inputSvgOpen {
 	right: -0.7em;
 	background: url('./assets/chevron-up.svg') 50% 50% no-repeat;
+}
+
+.searchBarModifier__menu li {
+	cursor: pointer;
 }
 
 .tagSearchBarClose {
@@ -220,6 +230,43 @@ main {
 	align-items: center;
 	grid-template-columns: repeat(auto-fill, 200px);
 	grid-gap: 0.3em;
+}
+
+.wrongInput {
+	animation-duration: 0.5s;
+	animation-name: test;
+	color: #ed6454;
+}
+
+@keyframes test {
+	from {
+		transform: translateX(0%);
+		border: solid red;
+	}
+	20% {
+		transform: translateX(-2%);
+		border: solid red;
+	}
+	37.5% {
+		transform: translateX(2%);
+		border: solid red;
+	}
+	50% {
+		transform: translateX(-2%);
+		border: solid red;
+	}
+	62.5% {
+		transform: translateX(2%);
+		border: solid red;
+	}
+	80% {
+		transform: translateX(-2%);
+		border: solid red;
+	}
+	to {
+		transform: translateX(2%);
+		border: solid red;
+	}
 }
 
 .searchResults {

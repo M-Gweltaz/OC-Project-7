@@ -1,5 +1,12 @@
+import { Tag } from '../models/Tag.js';
+import {
+	ingredientsTagList,
+	appliancesTagList,
+	ustensilsTagList,
+} from '../app.js';
+
 // Handling the adding/deleting tag process
-export default function tagHandling() {
+export const tagHandling = () => {
 	// DOM ELEM
 	const ingredientsSearchBarInput = document.querySelector(
 		'#ingredientsSearchBarInput'
@@ -11,49 +18,112 @@ export default function tagHandling() {
 		'#ustensilsSearchBarInput'
 	);
 
-	const selectedTagDisplayArea = document.querySelector(
-		'.searchBarModifier__tagSelected'
-	);
-
-	// MODEL
-	class Tag {
-		constructor(content, backgroundColor) {
-			this.content = content;
-			this.backgroundColor = backgroundColor;
-		}
-
-		createNewTag(content, backgroundColor) {
-			let newTag = document.createElement('div');
-			newTag.innerHTML = `${content.target.value} <svg xmlns="http://www.w3.org/2000/svg" width="20"	height="20" fill="currentColor"	class="bi bi-x-circle" viewBox="0 0 16 16">	<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"	/><path	d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>`;
-			newTag.classList.add(backgroundColor);
-			selectedTagDisplayArea.append(newTag);
-
-			// adding the closing event
-			newTag.children[0].addEventListener('click', () => {
-				newTag.remove();
-			});
-		}
-	}
-
-	// DOM LISTENER
+	// DOM LISTENER for adding new tag
 	ingredientsSearchBarInput.addEventListener('keydown', (e) => {
-		if (e.key == 'Enter' && e.keyCode == 13) {
-			const newTag = new Tag(e, 'ingredientsColor');
-			newTag.createNewTag(e, 'ingredientsColor');
+		let errorMessage;
+		switch (true) {
+			case e.key == 'Enter' &&
+				e.keyCode == 13 &&
+				checkTagName(e.target.value, ingredientsTagList, 'ingredient'):
+				const newTag = new Tag(e.target.value, 'ingredientsColor');
+				newTag.createNewTag(e.target.value, 'ingredientsColor');
+				break;
+
+			case e.key == 'Enter' && e.keyCode == 13:
+				setTimeout(() => {
+					ingredientsSearchBarInput.classList.add('wrongInput');
+				}, 0);
+				setTimeout(() => {
+					ingredientsSearchBarInput.classList.remove('wrongInput');
+				}, 500);
+				break;
 		}
 	});
 
 	appliancesSearchBarInput.addEventListener('keydown', (e) => {
-		if (e.key == 'Enter' && e.keyCode == 13) {
-			const newTag = new Tag(e, 'appliancesColor');
-			newTag.createNewTag(e, 'appliancesColor');
+		let errorMessage;
+		switch (true) {
+			case e.key == 'Enter' &&
+				e.keyCode == 13 &&
+				checkTagName(e.target.value, appliancesTagList, 'appliance'):
+				const newTag = new Tag(e.target.value, 'appliancesColor');
+				newTag.createNewTag(e.target.value, 'appliancesColor');
+				break;
+
+			case e.key == 'Enter' && e.keyCode == 13:
+				setTimeout(() => {
+					appliancesSearchBarInput.classList.add('wrongInput');
+				}, 0);
+				setTimeout(() => {
+					appliancesSearchBarInput.classList.remove('wrongInput');
+				}, 3000);
+				break;
 		}
 	});
 
 	ustensilsSearchBarInput.addEventListener('keydown', (e) => {
-		if (e.key == 'Enter' && e.keyCode == 13) {
-			const newTag = new Tag(e, 'ustensilsColor');
-			newTag.createNewTag(e, 'ustensilsColor');
+		let errorMessage;
+		switch (true) {
+			case e.key == 'Enter' &&
+				e.keyCode == 13 &&
+				checkTagName(e.target.value, ustensilsTagList, 'ustensil'):
+				const newTag = new Tag(e.target.value, 'ustensilsColor');
+				newTag.createNewTag(e.target.value, 'ustensilsColor');
+				break;
+
+			case e.key == 'Enter' && e.keyCode == 13:
+				setTimeout(() => {
+					ustensilsSearchBarInput.classList.add('wrongInput');
+				}, 0);
+				setTimeout(() => {
+					ustensilsSearchBarInput.classList.remove('wrongInput');
+				}, 3000);
+				break;
 		}
 	});
-}
+};
+
+// Checking if tag exist in the given tagList
+const checkTagName = (writenTag, tagList, item) => {
+	const isFound = tagList.some((ingredientTag) => {
+		if (ingredientTag[item] === writenTag) {
+			return true;
+		}
+		return false;
+	});
+	return isFound;
+};
+
+// Handling the openning and closing of the tagsSearchBars
+export const tagSearchMenuHandling = () => {
+	const ingredientsSearchBarMenu = document.querySelector(
+		'#ingredientsSearchBarMenu'
+	);
+	const appliancesSearchbarMenu = document.querySelector(
+		'#appliancesSearchBarMenu'
+	);
+	const ustensilsSearchBarMenu = document.querySelector(
+		'#ustensilsSearchBarMenu'
+	);
+
+	const tagSearchBarOpenClose = (searchBarOpened, backgroundColor) => {
+		let parentElem = searchBarOpened.parentElement;
+		parentElem.classList.toggle('tagSearchBarOpen');
+		parentElem.classList.toggle(`${backgroundColor}`);
+		parentElem.children[1].classList.toggle('inputSvgOpen');
+		parentElem.children[2].classList.toggle('tagSearchBarClose');
+		parentElem.children[2].classList.toggle('tagSearchBarOpen');
+	};
+
+	ingredientsSearchBarMenu.addEventListener('click', () => {
+		tagSearchBarOpenClose(ingredientsSearchBarMenu, 'ingredientsColor');
+	});
+
+	appliancesSearchbarMenu.addEventListener('click', () => {
+		tagSearchBarOpenClose(appliancesSearchbarMenu, 'appliancesColor');
+	});
+
+	ustensilsSearchBarMenu.addEventListener('click', () => {
+		tagSearchBarOpenClose(ustensilsSearchBarMenu, 'ustensilsColor');
+	});
+};
