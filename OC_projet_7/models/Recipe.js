@@ -85,7 +85,7 @@ export class Recipe {
 	getIngredientsTagList(id, ingredients, ingredientsTagList) {
 		ingredients.forEach((ingredient) => {
 			let ingredientNotAdded = true;
-			// checking if the ustensil already exist
+			// checking if the ingredient already exist
 			ingredientsTagList.forEach((ingredientTag) => {
 				if (ingredientTag.ingredient === ingredient.ingredient) {
 					ingredientTag.id.push(id);

@@ -1,11 +1,14 @@
 // MODEL
 import { Recipe } from './models/Recipe.js';
 import { Tag } from './models/Tag.js';
-
 // MODULES
 import { tagHandling, tagSearchMenuHandling } from './modules/tagHandling.js';
+import { queryHandling } from './modules/queryHandling.js';
 // DATA
 import { recipes } from './modules/data.js';
+
+// Initialising RecipeList
+let recipeList = [];
 
 // Initialising tagLists
 let ingredientsTagList = [];
@@ -25,6 +28,9 @@ recipes.map((recipe) => {
 		recipe.ustensils
 	);
 
+	// creating a new array of Recipe
+	recipeList.push(recipe);
+
 	// creating all the recipeCard
 	recipe.createNewRecipeCard(
 		recipe.name,
@@ -43,8 +49,8 @@ recipes.map((recipe) => {
 	recipe.getUstensilsTagList(recipe.id, recipe.ustensils, ustensilsTagList);
 });
 
-export { ingredientsTagList, appliancesTagList, ustensilsTagList };
-console.log(ingredientsTagList);
+export { recipeList, ingredientsTagList, appliancesTagList, ustensilsTagList };
+
 // creating all the tags lists
 const hydratingTagList = () => {
 	// DOM ELEM
@@ -78,3 +84,6 @@ tagSearchMenuHandling();
 
 // Handling the adding/deleting tag process
 tagHandling();
+
+// Handling the query
+queryHandling();
