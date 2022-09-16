@@ -23,7 +23,7 @@ export class Recipe {
 		// creating the ingredient part of the card
 		let ingredientsItems = document.createElement('div');
 		ingredientsItems.classList.add('recipeCard__infos--ingredients');
-		ingredients.forEach((ingredient) => {
+		for (const ingredient of ingredients) {
 			switch (true) {
 				case ingredient.quantity == undefined:
 					ingredientsItems.innerHTML += `<p><span>${ingredient.ingredient}</span></p>`;
@@ -36,7 +36,7 @@ export class Recipe {
 				default:
 					ingredientsItems.innerHTML += `<p><span>${ingredient.ingredient}: </span>${ingredient.quantity} ${ingredient.unit}</p>`;
 			}
-		});
+		}
 
 		// managing the lenght of the text description
 		let lightDescription = description;
@@ -83,15 +83,15 @@ export class Recipe {
 
 	// getting all ingredients from all recipes
 	getIngredientsTagList(id, ingredients, ingredientsTagList) {
-		ingredients.forEach((ingredient) => {
+		for (const ingredient of ingredients) {
 			let ingredientNotAdded = true;
-			// checking if the ustensil already exist
-			ingredientsTagList.forEach((ingredientTag) => {
+			// checking if the ingredient already exist
+			for (const ingredientTag of ingredientsTagList) {
 				if (ingredientTag.ingredient === ingredient.ingredient) {
 					ingredientTag.id.push(id);
 					ingredientNotAdded = false;
 				}
-			});
+			}
 			// else create a new entry
 			if (ingredientNotAdded == true) {
 				ingredientsTagList.push({
@@ -99,19 +99,19 @@ export class Recipe {
 					id: [id],
 				});
 			}
-		});
+		}
 	}
 
 	// getting all appliances from all recipes
 	getApplianceTagList(id, appliance, appliancesTagList) {
 		let applianceNotAdded = true;
 		// checking if the appliance already exist
-		appliancesTagList.forEach((applianceTag) => {
+		for (const applianceTag of appliancesTagList) {
 			if (applianceTag.appliance === appliance) {
 				applianceTag.id.push(id);
 				applianceNotAdded = false;
 			}
-		});
+		}
 		// else create a new entry
 		if (applianceNotAdded == true) {
 			appliancesTagList.push({ appliance: appliance, id: [id] });
@@ -120,19 +120,19 @@ export class Recipe {
 
 	// getting all ustensils from all recipes
 	getUstensilsTagList(id, ustensils, ustensilsTagList) {
-		ustensils.forEach((ustensil) => {
+		for (const ustensil of ustensils) {
 			let ustensilNotAdded = true;
 			// checking if the ustensil already exist
-			ustensilsTagList.forEach((ustensilTag) => {
+			for (const ustensilTag of ustensilsTagList) {
 				if (ustensilTag.ustensil === ustensil) {
 					ustensilTag.id.push(id);
 					ustensilNotAdded = false;
 				}
-			});
+			}
 			// else create a new entry
 			if (ustensilNotAdded == true) {
 				ustensilsTagList.push({ ustensil: ustensil, id: [id] });
 			}
-		});
+		}
 	}
 }
