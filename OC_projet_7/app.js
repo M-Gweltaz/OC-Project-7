@@ -16,7 +16,7 @@ let appliancesTagList = [];
 let ustensilsTagList = [];
 
 // DATA hydration
-for (const recipe of recipes) {
+for (let recipe of recipes) {
 	recipe = new Recipe(
 		recipe.id,
 		recipe.name,
@@ -60,7 +60,7 @@ const hydratingTagList = () => {
 
 	const creatingTagList = (elementTagList, element, elementDOM) => {
 		// adding each element in their respective lists
-		for (const elementTag of elementTagList) {
+		elementTagList.forEach((elementTag) => {
 			let content = document.createElement('li');
 
 			// creating new selected tag
@@ -70,7 +70,7 @@ const hydratingTagList = () => {
 			});
 			content.textContent = `${elementTag[element]}`;
 			elementDOM.append(content);
-		}
+		});
 	};
 
 	creatingTagList(ingredientsTagList, 'ingredient', ingredientListDOM);
