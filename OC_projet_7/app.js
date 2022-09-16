@@ -1,11 +1,14 @@
 // MODEL
 import { Recipe } from './models/Recipe.js';
 import { Tag } from './models/Tag.js';
-
 // MODULES
 import { tagHandling, tagSearchMenuHandling } from './modules/tagHandling.js';
+import { queryHandling } from './modules/queryHandling.js';
 // DATA
 import { recipes } from './modules/data.js';
+
+// Initialising RecipeList
+let recipeList = [];
 
 // Initialising tagLists
 let ingredientsTagList = [];
@@ -13,7 +16,7 @@ let appliancesTagList = [];
 let ustensilsTagList = [];
 
 // DATA hydration
-recipes.map((recipe) => {
+for (const recipe of recipes) {
 	recipe = new Recipe(
 		recipe.id,
 		recipe.name,
@@ -24,6 +27,9 @@ recipes.map((recipe) => {
 		recipe.appliance,
 		recipe.ustensils
 	);
+
+	// creating a new array of Recipe
+	recipeList.push(recipe);
 
 	// creating all the recipeCard
 	recipe.createNewRecipeCard(
@@ -41,10 +47,10 @@ recipes.map((recipe) => {
 	);
 	recipe.getApplianceTagList(recipe.id, recipe.appliance, appliancesTagList);
 	recipe.getUstensilsTagList(recipe.id, recipe.ustensils, ustensilsTagList);
-});
+}
 
-export { ingredientsTagList, appliancesTagList, ustensilsTagList };
-console.log(ingredientsTagList);
+export { recipeList, ingredientsTagList, appliancesTagList, ustensilsTagList };
+
 // creating all the tags lists
 const hydratingTagList = () => {
 	// DOM ELEM
@@ -54,7 +60,7 @@ const hydratingTagList = () => {
 
 	const creatingTagList = (elementTagList, element, elementDOM) => {
 		// adding each element in their respective lists
-		elementTagList.forEach((elementTag) => {
+		for (const elementTag of elementTagList) {
 			let content = document.createElement('li');
 
 			// creating new selected tag
@@ -64,7 +70,7 @@ const hydratingTagList = () => {
 			});
 			content.textContent = `${elementTag[element]}`;
 			elementDOM.append(content);
-		});
+		}
 	};
 
 	creatingTagList(ingredientsTagList, 'ingredient', ingredientListDOM);
@@ -78,3 +84,6 @@ tagSearchMenuHandling();
 
 // Handling the adding/deleting tag process
 tagHandling();
+
+// Handling the query
+queryHandling();
