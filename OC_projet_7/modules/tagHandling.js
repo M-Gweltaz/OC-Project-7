@@ -85,7 +85,6 @@ export const tagHandling = () => {
 
 // Checking if tag exist in the given tagList
 const checkTagName = (writenTag, tagList, item) => {
-	// TODO HERE MAKE IT WORKS
 	let isFound = false;
 	for (const tag of tagList) {
 		if (tag[item].toLowerCase() === writenTag.toLowerCase()) {
