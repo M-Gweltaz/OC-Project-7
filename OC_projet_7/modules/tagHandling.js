@@ -89,7 +89,6 @@ const checkTagName = (writenTag, tagList, item) => {
 		if (tag[item].toLowerCase() === writenTag.toLowerCase()) {
 			return true;
 		}
-		return false;
 	});
 	return isFound;
 };
