@@ -60,7 +60,7 @@ const hydratingTagList = () => {
 
 	const creatingTagList = (elementTagList, element, elementDOM) => {
 		// adding each element in their respective lists
-		elementTagList.forEach((elementTag) => {
+		for (const elementTag of elementTagList) {
 			let content = document.createElement('li');
 
 			// creating new selected tag
@@ -70,7 +70,7 @@ const hydratingTagList = () => {
 			});
 			content.textContent = `${elementTag[element]}`;
 			elementDOM.append(content);
-		});
+		}
 	};
 
 	creatingTagList(ingredientsTagList, 'ingredient', ingredientListDOM);

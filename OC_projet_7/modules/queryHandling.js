@@ -9,6 +9,28 @@ import {
 // Array of the found recipes query
 let queryResultArray = [];
 
+// includes logic using plain old loops
+const arrayInclude = (array, element) => {
+	let result = false;
+	for (const item of array) {
+		if (item == element) {
+			result = true;
+		}
+	}
+	return result;
+};
+
+// find logic using plain old loops
+const arrayFindById = (array, element) => {
+	let result = undefined;
+	for (const item of array) {
+		if (item.id == element) {
+			result = item;
+		}
+	}
+	return result;
+};
+
 export const queryHandling = () => {
 	// DOM selectors
 	const searchResultDOM = document.querySelector('.searchResults');
@@ -55,7 +77,8 @@ export const queryHandling = () => {
 				if (selectedTag == ingredientItem.ingredient) {
 					for (const id of ingredientItem.id) {
 						tempTagIngredientResult.push(
-							queryResultArray.find((recipe) => recipe.id == id)
+							arrayFindById(queryResultArray, id)
+							// queryResultArray.find((recipe) => recipe.id == id)
 						);
 					}
 				}
@@ -70,7 +93,8 @@ export const queryHandling = () => {
 				if (selectedTag == applianceItem.appliance) {
 					for (const id of applianceItem.id) {
 						tempTagApplianceResult.push(
-							queryResultArray.find((recipe) => recipe.id == id)
+							arrayFindById(queryResultArray, id)
+							// queryResultArray.find((recipe) => recipe.id == id)
 						);
 					}
 				}
@@ -85,7 +109,8 @@ export const queryHandling = () => {
 				if (selectedTag == ustensilItem.ustensil) {
 					for (const id of ustensilItem.id) {
 						tempTagUstensilResult.push(
-							queryResultArray.find((recipe) => recipe.id == id)
+							arrayFindById(queryResultArray, id)
+							// queryResultArray.find((recipe) => recipe.id == id)
 						);
 					}
 				}
@@ -105,9 +130,9 @@ export const queryHandling = () => {
 		) {
 			for (const recipe of tempTagIngredientResult) {
 				if (
-					tempTagIngredientResult.includes(recipe) &&
-					tempTagApplianceResult.includes(recipe) &&
-					tempTagUstensilResult.includes(recipe)
+					arrayInclude(tempTagIngredientResult, recipe) &&
+					arrayInclude(tempTagApplianceResult, recipe) &&
+					arrayInclude(tempTagUstensilResult, recipe)
 				) {
 					tagResultIntersection.push(recipe);
 				}
@@ -122,8 +147,8 @@ export const queryHandling = () => {
 		) {
 			for (const recipe of tempTagIngredientResult) {
 				if (
-					tempTagIngredientResult.includes(recipe) &&
-					tempTagApplianceResult.includes(recipe)
+					arrayInclude(tempTagIngredientResult, recipe) &&
+					arrayInclude(tempTagApplianceResult, recipe)
 				) {
 					tagResultIntersection.push(recipe);
 				}
@@ -138,8 +163,8 @@ export const queryHandling = () => {
 		) {
 			for (const recipe of tempTagIngredientResult) {
 				if (
-					tempTagIngredientResult.includes(recipe) &&
-					tempTagUstensilResult.includes(recipe)
+					arrayInclude(tempTagIngredientResult, recipe) &&
+					arrayInclude(tempTagUstensilResult, recipe)
 				) {
 					tagResultIntersection.push(recipe);
 				}
@@ -154,8 +179,8 @@ export const queryHandling = () => {
 		) {
 			for (const recipe of tempTagApplianceResult) {
 				if (
-					tempTagApplianceResult.includes(recipe) &&
-					tempTagUstensilResult.includes(recipe)
+					arrayInclude(tempTagApplianceResult, recipe) &&
+					arrayInclude(tempTagUstensilResult, recipe)
 				) {
 					tagResultIntersection.push(recipe);
 				}
@@ -217,9 +242,10 @@ export const queryHandling = () => {
 			) {
 				for (const id of queryResult.id) {
 					// storing only the found recipes not the undefined one
-					if (queryResultArray.find((recipe) => recipe.id == id) != undefined) {
+					if (arrayFindById(queryResultArray, id) != undefined) {
 						tempIngredientResult.push(
-							queryResultArray.find((recipe) => recipe.id == id)
+							arrayFindById(queryResultArray, id)
+							// queryResultArray.find((recipe) => recipe.id == id)
 						);
 					}
 				}
