@@ -99,11 +99,20 @@ export const tagSearchMenuHandling = () => {
 	const ingredientsSearchBarMenu = document.querySelector(
 		'#ingredientsSearchBarMenu'
 	);
-	const appliancesSearchbarMenu = document.querySelector(
+	const ingredientsSearchBarInput = document.querySelector(
+		'#ingredientsSearchBarInput'
+	);
+	const appliancesSearchBarMenu = document.querySelector(
 		'#appliancesSearchBarMenu'
+	);
+	const appliancesSearchBarInput = document.querySelector(
+		'#appliancesSearchBarInput'
 	);
 	const ustensilsSearchBarMenu = document.querySelector(
 		'#ustensilsSearchBarMenu'
+	);
+	const ustensilsSearchBarInput = document.querySelector(
+		'#ustensilsSearchBarInput'
 	);
 
 	const tagSearchBarOpenClose = (searchBarOpened, backgroundColor) => {
@@ -118,12 +127,30 @@ export const tagSearchMenuHandling = () => {
 	ingredientsSearchBarMenu.addEventListener('click', () => {
 		tagSearchBarOpenClose(ingredientsSearchBarMenu, 'ingredientsColor');
 	});
+	ingredientsSearchBarInput.addEventListener('focus', () => {
+		tagSearchBarOpenClose(ingredientsSearchBarInput, 'ingredientsColor');
+	});
+	ingredientsSearchBarInput.addEventListener('blur', () => {
+		tagSearchBarOpenClose(ingredientsSearchBarInput, 'ingredientsColor');
+	});
 
-	appliancesSearchbarMenu.addEventListener('click', () => {
-		tagSearchBarOpenClose(appliancesSearchbarMenu, 'appliancesColor');
+	appliancesSearchBarMenu.addEventListener('click', () => {
+		tagSearchBarOpenClose(appliancesSearchBarMenu, 'appliancesColor');
+	});
+	appliancesSearchBarInput.addEventListener('focus', () => {
+		tagSearchBarOpenClose(appliancesSearchBarInput, 'appliancesColor');
+	});
+	appliancesSearchBarInput.addEventListener('blur', () => {
+		tagSearchBarOpenClose(appliancesSearchBarInput, 'appliancesColor');
 	});
 
 	ustensilsSearchBarMenu.addEventListener('click', () => {
 		tagSearchBarOpenClose(ustensilsSearchBarMenu, 'ustensilsColor');
+	});
+	ustensilsSearchBarInput.addEventListener('focus', () => {
+		tagSearchBarOpenClose(ustensilsSearchBarInput, 'ustensilsColor');
+	});
+	ustensilsSearchBarInput.addEventListener('blur', () => {
+		tagSearchBarOpenClose(ustensilsSearchBarInput, 'ustensilsColor');
 	});
 };
