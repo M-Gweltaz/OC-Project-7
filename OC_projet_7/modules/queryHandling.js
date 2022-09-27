@@ -216,78 +216,85 @@ export const queryHandling = () => {
 
 	// Global query logic
 	const mainSearchBarQuery = (e) => {
-		// handling tag logic
-		// getting all the tag selected
-		let [...tagList] = searchingQueryTagDOM.children;
+		// only firing if 3 characters are writen
+		if (e.target.value.length >= 3) {
+			// handling tag logic
+			// getting all the tag selected
+			let [...tagList] = searchingQueryTagDOM.children;
 
-		// if tag used changing the scope of the search
-		tagList.length == 0
-			? (queryResultArray = recipeList)
-			: (queryResultArray = selectedTagHandling(tagList));
+			// if tag used changing the scope of the search
+			tagList.length == 0
+				? (queryResultArray = recipeList)
+				: (queryResultArray = selectedTagHandling(tagList));
 
-		// name searchBar query
-		let tempNameResult = [];
-		for (const queryResult of queryResultArray) {
-			if (queryResult.name.toLowerCase().match(e.target.value.toLowerCase())) {
-				tempNameResult.push(queryResult);
+			// name searchBar query
+			let tempNameResult = [];
+			for (const queryResult of queryResultArray) {
+				if (
+					queryResult.name.toLowerCase().match(e.target.value.toLowerCase())
+				) {
+					tempNameResult.push(queryResult);
+				}
 			}
-		}
-		console.log('name result =>', tempNameResult);
+			console.log('name result =>', tempNameResult);
 
-		// ingredient searchBar query
-		let tempIngredientResult = [];
-		for (const queryResult of ingredientsTagList) {
-			if (
-				queryResult.ingredient.toLowerCase().match(e.target.value.toLowerCase())
-			) {
-				for (const id of queryResult.id) {
-					// storing only the found recipes not the undefined one
-					if (arrayFindById(queryResultArray, id) != undefined) {
-						tempIngredientResult.push(
-							arrayFindById(queryResultArray, id)
-							// queryResultArray.find((recipe) => recipe.id == id)
-						);
+			// ingredient searchBar query
+			let tempIngredientResult = [];
+			for (const queryResult of ingredientsTagList) {
+				if (
+					queryResult.ingredient
+						.toLowerCase()
+						.match(e.target.value.toLowerCase())
+				) {
+					for (const id of queryResult.id) {
+						// storing only the found recipes not the undefined one
+						if (arrayFindById(queryResultArray, id) != undefined) {
+							tempIngredientResult.push(
+								arrayFindById(queryResultArray, id)
+								// queryResultArray.find((recipe) => recipe.id == id)
+							);
+						}
 					}
 				}
 			}
-		}
-		console.log('ingredient result =>', tempIngredientResult);
+			console.log('ingredient result =>', tempIngredientResult);
 
-		// description search query
-		let tempDescriptionResult = [];
-		for (const queryResult of queryResultArray) {
-			if (
-				queryResult.description
-					.toLowerCase()
-					.match(e.target.value.toLowerCase())
-			) {
-				tempDescriptionResult.push(queryResult);
+			// description search query
+			let tempDescriptionResult = [];
+			for (const queryResult of queryResultArray) {
+				if (
+					queryResult.description
+						.toLowerCase()
+						.match(e.target.value.toLowerCase())
+				) {
+					tempDescriptionResult.push(queryResult);
+				}
 			}
-		}
-		console.log('description result =>', tempDescriptionResult);
+			console.log('description result =>', tempDescriptionResult);
 
-		// Final searchBar result by grouping each tempResult
-		let finalSearchBarResult = new Set([
-			...tempNameResult,
-			...tempIngredientResult,
-			...tempDescriptionResult,
-		]);
+			// Final searchBar result by grouping each tempResult
+			let finalSearchBarResult = new Set([
+				...tempNameResult,
+				...tempIngredientResult,
+				...tempDescriptionResult,
+			]);
 
-		console.log(finalSearchBarResult);
+			console.log(finalSearchBarResult);
 
-		// deleting last DOM result
-		searchResultDOM.innerHTML = '';
+			// deleting last DOM result
+			searchResultDOM.innerHTML = '';
 
-		// creating all the DOM recipeCard
-		for (const recipe of finalSearchBarResult) {
-			recipe.createNewRecipeCard(
-				recipe.name,
-				recipe.ingredients,
-				recipe.time,
-				recipe.description
-			);
+			// creating all the DOM recipeCard
+			for (const recipe of finalSearchBarResult) {
+				recipe.createNewRecipeCard(
+					recipe.name,
+					recipe.ingredients,
+					recipe.time,
+					recipe.description
+				);
+			}
 		}
 	};
 
-	searchingQueryDOM.addEventListener('change', mainSearchBarQuery);
+	searchingQueryDOM.addEventListener('input', mainSearchBarQuery);
 };
