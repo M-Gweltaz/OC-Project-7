@@ -172,66 +172,73 @@ export const queryHandling = () => {
 
 	// Global query logic
 	const mainSearchBarQuery = (e) => {
-		// handling tag logic
-		// getting all the tag selected
-		let [...tagList] = searchingQueryTagDOM.children;
+		// only firing if 3 chars min are used for the query
+		if (e.target.value.length >= 3) {
+			// handling tag logic
+			// getting all the tag selected
+			let [...tagList] = searchingQueryTagDOM.children;
 
-		// if tag used changing the scope of the search
-		tagList.length == 0
-			? (queryResultArray = recipeList)
-			: (queryResultArray = selectedTagHandling(tagList));
+			// if tag used changing the scope of the search
+			tagList.length == 0
+				? (queryResultArray = recipeList)
+				: (queryResultArray = selectedTagHandling(tagList));
 
-		// name searchBar query
-		let tempNameResult = queryResultArray.filter((queryResult) =>
-			queryResult.name.toLowerCase().match(e.target.value.toLowerCase())
-		);
-		console.log('name result =>', tempNameResult);
-
-		// ingredient searchBar query
-		let tempIngredientResult = [];
-		ingredientsTagList.forEach((queryResult) => {
-			if (
-				queryResult.ingredient.toLowerCase().match(e.target.value.toLowerCase())
-			) {
-				queryResult.id.forEach((id) => {
-					// storing only the found recipes not the undefined one
-					if (queryResultArray.find((recipe) => recipe.id == id) != undefined)
-						tempIngredientResult.push(
-							queryResultArray.find((recipe) => recipe.id == id)
-						);
-				});
-			}
-		});
-		console.log('ingredient result =>', tempIngredientResult);
-
-		// description search query
-		let tempDescriptionResult = queryResultArray.filter((queryResult) =>
-			queryResult.description.toLowerCase().match(e.target.value.toLowerCase())
-		);
-		console.log('description result =>', tempDescriptionResult);
-
-		// Final searchBar result by grouping each tempResult
-		let finalSearchBarResult = new Set([
-			...tempNameResult,
-			...tempIngredientResult,
-			...tempDescriptionResult,
-		]);
-
-		console.log(finalSearchBarResult);
-
-		// deleting last DOM result
-		searchResultDOM.innerHTML = '';
-
-		// creating all the DOM recipeCard
-		finalSearchBarResult.forEach((recipe) => {
-			recipe.createNewRecipeCard(
-				recipe.name,
-				recipe.ingredients,
-				recipe.time,
-				recipe.description
+			// name searchBar query
+			let tempNameResult = queryResultArray.filter((queryResult) =>
+				queryResult.name.toLowerCase().match(e.target.value.toLowerCase())
 			);
-		});
+			console.log('name result =>', tempNameResult);
+
+			// ingredient searchBar query
+			let tempIngredientResult = [];
+			ingredientsTagList.forEach((queryResult) => {
+				if (
+					queryResult.ingredient
+						.toLowerCase()
+						.match(e.target.value.toLowerCase())
+				) {
+					queryResult.id.forEach((id) => {
+						// storing only the found recipes not the undefined one
+						if (queryResultArray.find((recipe) => recipe.id == id) != undefined)
+							tempIngredientResult.push(
+								queryResultArray.find((recipe) => recipe.id == id)
+							);
+					});
+				}
+			});
+			console.log('ingredient result =>', tempIngredientResult);
+
+			// description search query
+			let tempDescriptionResult = queryResultArray.filter((queryResult) =>
+				queryResult.description
+					.toLowerCase()
+					.match(e.target.value.toLowerCase())
+			);
+			console.log('description result =>', tempDescriptionResult);
+
+			// Final searchBar result by grouping each tempResult
+			let finalSearchBarResult = new Set([
+				...tempNameResult,
+				...tempIngredientResult,
+				...tempDescriptionResult,
+			]);
+
+			console.log(finalSearchBarResult);
+
+			// deleting last DOM result
+			searchResultDOM.innerHTML = '';
+
+			// creating all the DOM recipeCard
+			finalSearchBarResult.forEach((recipe) => {
+				recipe.createNewRecipeCard(
+					recipe.name,
+					recipe.ingredients,
+					recipe.time,
+					recipe.description
+				);
+			});
+		}
 	};
 
-	searchingQueryDOM.addEventListener('change', mainSearchBarQuery);
+	searchingQueryDOM.addEventListener('input', mainSearchBarQuery);
 };
