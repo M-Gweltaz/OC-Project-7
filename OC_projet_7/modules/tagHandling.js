@@ -129,6 +129,9 @@ export const tagSearchMenuHandling = () => {
 	ingredientsSearchBarInput.addEventListener('focus', () => {
 		tagSearchBarOpenClose(ingredientsSearchBarInput, 'ingredientsColor');
 	});
+	ingredientsSearchBarInput.addEventListener('blur', () => {
+		tagSearchBarOpenClose(ingredientsSearchBarInput, 'ingredientsColor');
+	});
 
 	appliancesSearchBarMenu.addEventListener('click', () => {
 		tagSearchBarOpenClose(appliancesSearchBarMenu, 'appliancesColor');
@@ -136,11 +139,17 @@ export const tagSearchMenuHandling = () => {
 	appliancesSearchBarInput.addEventListener('focus', () => {
 		tagSearchBarOpenClose(appliancesSearchBarInput, 'appliancesColor');
 	});
+	appliancesSearchBarInput.addEventListener('blur', () => {
+		tagSearchBarOpenClose(appliancesSearchBarInput, 'appliancesColor');
+	});
 
 	ustensilsSearchBarMenu.addEventListener('click', () => {
 		tagSearchBarOpenClose(ustensilsSearchBarMenu, 'ustensilsColor');
 	});
 	ustensilsSearchBarInput.addEventListener('focus', () => {
+		tagSearchBarOpenClose(ustensilsSearchBarInput, 'ustensilsColor');
+	});
+	ustensilsSearchBarInput.addEventListener('blur', () => {
 		tagSearchBarOpenClose(ustensilsSearchBarInput, 'ustensilsColor');
 	});
 };
