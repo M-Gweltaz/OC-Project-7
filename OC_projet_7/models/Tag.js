@@ -1,3 +1,5 @@
+import { searchQuery } from '../modules/queryHandling.js';
+
 // MODEL
 export class Tag {
 	constructor(content, backgroundColor) {
@@ -18,6 +20,7 @@ export class Tag {
 		// adding the closing event
 		newTag.children[0].addEventListener('click', () => {
 			newTag.remove();
+			searchQuery();
 		});
 	}
 }
