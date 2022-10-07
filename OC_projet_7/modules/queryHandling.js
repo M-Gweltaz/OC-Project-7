@@ -97,15 +97,21 @@ export const queryHandling = () => {
 							}
 
 							// sorting only the recipes that match all tags
-							let intersection = tempTagIngredientResult.filter((recipe) =>
-								arrayInclude(currentTagResults, recipe)
-							);
+							// let intersection = tempTagIngredientResult.filter((recipe) =>
+							// 	arrayInclude(currentTagResults, recipe)
+							// );
+							// tempTagIngredientResult = intersection;
+							let intersection = [];
+							for (const recipe of tempTagIngredientResult) {
+								if (arrayInclude(currentTagResults, recipe)) {
+									intersection.push(recipe);
+								}
+							}
 							tempTagIngredientResult = intersection;
 					}
 				}
 			}
 		}
-		console.log('INGREDIENT TAG =>', tempTagIngredientResult);
 
 		// selected tag appliance query
 		let tempTagApplianceResult = [];
@@ -132,15 +138,22 @@ export const queryHandling = () => {
 							}
 
 							// sorting only the recipes that match all tags
-							let intersection = tempTagApplianceResult.filter((recipe) =>
-								currentTagResults.includes(recipe)
-							);
+							// let intersection = tempTagApplianceResult.filter((recipe) =>
+							// 	currentTagResults.includes(recipe)
+							// );
+							// tempTagApplianceResult = intersection;
+
+							let intersection = [];
+							for (const recipe of tempTagApplianceResult) {
+								if (arrayInclude(currentTagResults, recipe)) {
+									intersection.push(recipe);
+								}
+							}
 							tempTagApplianceResult = intersection;
 					}
 				}
 			}
 		}
-		console.log('APPLIANCE TAG =>', tempTagApplianceResult);
 
 		// selected tag ustensil query
 		let tempTagUstensilResult = [];
@@ -170,23 +183,22 @@ export const queryHandling = () => {
 							}
 
 							// sorting only the recipes that match all tags
-							let intersection = tempTagUstensilResult.filter((recipe) =>
-								currentTagResults.includes(recipe)
-							);
-							tempTagUstensilResult = intersection;
+							// let intersection = tempTagUstensilResult.filter((recipe) =>
+							// 	currentTagResults.includes(recipe)
+							// );
+							// tempTagUstensilResult = intersection;
 
-						// FILTER CHANGE
-						// let tempNameResult = [];
-						// for (const queryResult of queryResultArray) {
-						// 	if (queryResult.name.toLowerCase().match(mainSearchBarInput.toLowerCase())) {
-						// 		tempNameResult.push(queryResult);
-						// 	}
-						// }
+							let intersection = [];
+							for (const recipe of tempTagUstensilResult) {
+								if (arrayInclude(currentTagResults, recipe)) {
+									intersection.push(recipe);
+								}
+							}
+							tempTagUstensilResult = intersection;
 					}
 				}
 			}
 		}
-		console.log('USTENSIL TAG =>', tempTagUstensilResult);
 
 		// deleting last tag result
 		let tagResultIntersection = [];
@@ -279,7 +291,6 @@ export const queryHandling = () => {
 
 		// transforming the set as an Array
 		tagResultIntersection = [...tagResultIntersection];
-		console.log('TAG RESULT =>', tagResultIntersection);
 
 		return tagResultIntersection;
 	};
@@ -288,7 +299,6 @@ export const queryHandling = () => {
 	searchQuery = () => {
 		// getting the value of the mainBarSearch
 		const mainSearchBarInput = searchingQueryDOM.value;
-		console.log(queryResultArray);
 
 		// handling tag logic
 		// getting all the tag selected
@@ -298,8 +308,6 @@ export const queryHandling = () => {
 		tagList.length == 0
 			? (queryResultArray = recipeList)
 			: (queryResultArray = selectedTagHandling(tagList));
-
-		console.log('SCOPE =>', queryResultArray);
 
 		// only firing if 3 chars min are used for the query
 		if (mainSearchBarInput.length >= 3) {
@@ -312,7 +320,6 @@ export const queryHandling = () => {
 					tempNameResult.push(queryResult);
 				}
 			}
-			console.log('name result =>', tempNameResult);
 
 			// ingredient searchBar query
 			let tempIngredientResult = [];
@@ -330,7 +337,6 @@ export const queryHandling = () => {
 					}
 				}
 			}
-			console.log('ingredient result =>', tempIngredientResult);
 
 			// description search query
 			let tempDescriptionResult = [];
@@ -343,7 +349,6 @@ export const queryHandling = () => {
 					tempDescriptionResult.push(queryResult);
 				}
 			}
-			console.log('description result =>', tempDescriptionResult);
 
 			// Final searchBar result by grouping each tempResult
 			finalSearchBarResult = new Set([

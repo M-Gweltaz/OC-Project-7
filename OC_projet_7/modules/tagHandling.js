@@ -25,7 +25,7 @@ export const updatedTagMenu = (searchResult) => {
 	let ingredientUpdatedTagMenu = () => {
 		let updatedIngredientTagList = [];
 		for (const ingredientTag of ingredientsTagList) {
-			for (const id of ingredientTag) {
+			for (const id of ingredientTag.id) {
 				for (const recipe of searchResult) {
 					if (recipe.id == id) {
 						updatedIngredientTagList.push(ingredientTag);
@@ -46,7 +46,7 @@ export const updatedTagMenu = (searchResult) => {
 	let applianceUpdatedTagMenu = () => {
 		let updatedApplianceTagList = [];
 		for (const applianceTag of appliancesTagList) {
-			for (const id of applianceTag) {
+			for (const id of applianceTag.id) {
 				for (const recipe of searchResult) {
 					if (recipe.id == id) {
 						updatedApplianceTagList.push(applianceTag);
@@ -67,9 +67,8 @@ export const updatedTagMenu = (searchResult) => {
 	let ustensilUpdatedTagMenu = () => {
 		let updatedUstensilTagList = [];
 		for (const ustensilTag of ustensilsTagList) {
-			for (const id of ustensilTag) {
+			for (const id of ustensilTag.id) {
 				for (const recipe of searchResult) {
-					// console.log(recipe.id, ustensilTag.id);
 					if (recipe.id == id) {
 						updatedUstensilTagList.push(ustensilTag);
 					}
@@ -125,11 +124,18 @@ export const tagHandling = () => {
 		// reseting previous list
 		ingredientListDOM.innerHTML = '';
 
-		let filteredTagList = ingredientsTagList.filter((ingredientTag) => {
-			return ingredientTag.ingredient
-				.toLowerCase()
-				.match(ingredientsSearchBarInput.value.toLowerCase());
-		});
+		// let filteredTagList = [];
+		for (const ustensilTag of ingredientsTagList) {
+			if (
+				ingredientTag.ingredient
+					.toLowerCase()
+					.match(ustensilsSearchBarInput.value.toLowerCase())
+			) {
+				filteredTagList.push(ingredientTag);
+			}
+		}
+		tempTagApplianceResult = intersection;
+
 		creatingTagList(filteredTagList, 'ingredient', ingredientListDOM);
 	});
 
@@ -160,11 +166,17 @@ export const tagHandling = () => {
 		// reseting previous list
 		applianceListDOM.innerHTML = '';
 
-		let filteredTagList = appliancesTagList.filter((applianceTag) => {
-			return applianceTag.appliance
-				.toLowerCase()
-				.match(appliancesSearchBarInput.value.toLowerCase());
-		});
+		let filteredTagList = [];
+		for (const applianceTag of appliancesTagList) {
+			if (
+				applianceTag.appliance
+					.toLowerCase()
+					.match(ustensilsSearchBarInput.value.toLowerCase())
+			) {
+				filteredTagList.push(applianceTag);
+			}
+		}
+
 		creatingTagList(filteredTagList, 'appliance', applianceListDOM);
 	});
 
@@ -195,11 +207,18 @@ export const tagHandling = () => {
 		// reseting previous list
 		ustensilListDOM.innerHTML = '';
 
-		let filteredTagList = ustensilsTagList.filter((ustensilTag) => {
-			return ustensilTag.ustensil
-				.toLowerCase()
-				.match(ustensilsSearchBarInput.value.toLowerCase());
-		});
+		let filteredTagList = [];
+		for (const ustensilTag of ustensilsTagList) {
+			if (
+				ustensilTag.ustensil
+					.toLowerCase()
+					.match(ustensilsSearchBarInput.value.toLowerCase())
+			) {
+				filteredTagList.push(ustensilTag);
+			}
+		}
+		tempTagApplianceResult = intersection;
+
 		creatingTagList(filteredTagList, 'ustensil', ustensilListDOM);
 	});
 };
