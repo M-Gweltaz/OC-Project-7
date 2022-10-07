@@ -1,9 +1,87 @@
 import { Tag } from '../models/Tag.js';
 import {
+	queryHandling,
+	searchQuery,
+	finalSearchBarResult,
+} from './queryHandling.js';
+import {
 	ingredientsTagList,
 	appliancesTagList,
 	ustensilsTagList,
+	creatingTagList,
 } from '../app.js';
+
+const ingredientListDOM = document.querySelector('#ingredientTagList');
+const applianceListDOM = document.querySelector('#applianceTagList');
+const ustensilListDOM = document.querySelector('#ustensilTagList');
+
+export const updatedTagMenu = (searchResult) => {
+	// reseting previous menus
+	ingredientListDOM.innerHTML = '';
+	applianceListDOM.innerHTML = '';
+	ustensilListDOM.innerHTML = '';
+
+	// updating the tag menus
+	let ingredientUpdatedTagMenu = () => {
+		let updatedIngredientTagList = [];
+		ingredientsTagList.forEach((ingredientTag) => {
+			ingredientTag.id.forEach((id) => {
+				searchResult.forEach((recipe) => {
+					if (recipe.id == id) {
+						updatedIngredientTagList.push(ingredientTag);
+					}
+				});
+			});
+		});
+		// preventing multiple same occurence
+		let cleandUpdatedIngredientTagList = new Set([...updatedIngredientTagList]);
+		creatingTagList(
+			cleandUpdatedIngredientTagList,
+			'ingredient',
+			ingredientListDOM
+		);
+	};
+	ingredientUpdatedTagMenu();
+
+	let applianceUpdatedTagMenu = () => {
+		let updatedApplianceTagList = [];
+		appliancesTagList.forEach((applianceTag) => {
+			applianceTag.id.forEach((id) => {
+				searchResult.forEach((recipe) => {
+					if (recipe.id == id) {
+						updatedApplianceTagList.push(applianceTag);
+					}
+				});
+			});
+		});
+		// preventing multiple same occurence
+		let cleanUpdatedApplianceTagList = new Set([...updatedApplianceTagList]);
+		creatingTagList(
+			cleanUpdatedApplianceTagList,
+			'appliance',
+			applianceListDOM
+		);
+	};
+	applianceUpdatedTagMenu();
+
+	let ustensilUpdatedTagMenu = () => {
+		let updatedUstensilTagList = [];
+		ustensilsTagList.forEach((ustensilTag) => {
+			ustensilTag.id.forEach((id) => {
+				searchResult.forEach((recipe) => {
+					// console.log(recipe.id, ustensilTag.id);
+					if (recipe.id == id) {
+						updatedUstensilTagList.push(ustensilTag);
+					}
+				});
+			});
+		});
+		// preventing multiple same occurence
+		let cleanUpdatedUstensilTagList = new Set([...updatedUstensilTagList]);
+		creatingTagList(cleanUpdatedUstensilTagList, 'ustensil', ustensilListDOM);
+	};
+	ustensilUpdatedTagMenu();
+};
 
 // Handling the adding/deleting tag process
 export const tagHandling = () => {
@@ -18,8 +96,9 @@ export const tagHandling = () => {
 		'#ustensilsSearchBarInput'
 	);
 
-	// DOM LISTENER for adding new tag
+	// DOM LISTENER for adding new tag and updating taglist
 	ingredientsSearchBarInput.addEventListener('keydown', (e) => {
+		let ingredientTagResult = ingredientsTagList;
 		let errorMessage;
 		switch (true) {
 			case e.key == 'Enter' &&
@@ -27,6 +106,8 @@ export const tagHandling = () => {
 				checkTagName(e.target.value, ingredientsTagList, 'ingredient'):
 				const newTag = new Tag(e.target.value, 'ingredientsColor');
 				newTag.createNewTag(e.target.value, 'ingredientsColor');
+				// start the query
+				searchQuery();
 				break;
 
 			case e.key == 'Enter' && e.keyCode == 13:
@@ -37,7 +118,21 @@ export const tagHandling = () => {
 					ingredientsSearchBarInput.classList.remove('wrongInput');
 				}, 500);
 				break;
+
+			default:
 		}
+	});
+
+	ingredientsSearchBarInput.addEventListener('input', () => {
+		// reseting previous list
+		ingredientListDOM.innerHTML = '';
+
+		let filteredTagList = ingredientsTagList.filter((ingredientTag) => {
+			return ingredientTag.ingredient
+				.toLowerCase()
+				.match(ingredientsSearchBarInput.value.toLowerCase());
+		});
+		creatingTagList(filteredTagList, 'ingredient', ingredientListDOM);
 	});
 
 	appliancesSearchBarInput.addEventListener('keydown', (e) => {
@@ -48,6 +143,8 @@ export const tagHandling = () => {
 				checkTagName(e.target.value, appliancesTagList, 'appliance'):
 				const newTag = new Tag(e.target.value, 'appliancesColor');
 				newTag.createNewTag(e.target.value, 'appliancesColor');
+				// start the query
+				searchQuery();
 				break;
 
 			case e.key == 'Enter' && e.keyCode == 13:
@@ -61,6 +158,18 @@ export const tagHandling = () => {
 		}
 	});
 
+	appliancesSearchBarInput.addEventListener('input', () => {
+		// reseting previous list
+		applianceListDOM.innerHTML = '';
+
+		let filteredTagList = appliancesTagList.filter((applianceTag) => {
+			return applianceTag.appliance
+				.toLowerCase()
+				.match(appliancesSearchBarInput.value.toLowerCase());
+		});
+		creatingTagList(filteredTagList, 'appliance', applianceListDOM);
+	});
+
 	ustensilsSearchBarInput.addEventListener('keydown', (e) => {
 		let errorMessage;
 		switch (true) {
@@ -69,6 +178,8 @@ export const tagHandling = () => {
 				checkTagName(e.target.value, ustensilsTagList, 'ustensil'):
 				const newTag = new Tag(e.target.value, 'ustensilsColor');
 				newTag.createNewTag(e.target.value, 'ustensilsColor');
+				// start the query
+				searchQuery();
 				break;
 
 			case e.key == 'Enter' && e.keyCode == 13:
@@ -80,6 +191,18 @@ export const tagHandling = () => {
 				}, 3000);
 				break;
 		}
+	});
+
+	ustensilsSearchBarInput.addEventListener('input', () => {
+		// reseting previous list
+		ustensilListDOM.innerHTML = '';
+
+		let filteredTagList = ustensilsTagList.filter((ustensilTag) => {
+			return ustensilTag.ustensil
+				.toLowerCase()
+				.match(ustensilsSearchBarInput.value.toLowerCase());
+		});
+		creatingTagList(filteredTagList, 'ustensil', ustensilListDOM);
 	});
 };
 
@@ -127,29 +250,32 @@ export const tagSearchMenuHandling = () => {
 		tagSearchBarOpenClose(ingredientsSearchBarMenu, 'ingredientsColor');
 	});
 	ingredientsSearchBarInput.addEventListener('focus', () => {
-		tagSearchBarOpenClose(ingredientsSearchBarInput, 'ingredientsColor');
-	});
-	ingredientsSearchBarInput.addEventListener('blur', () => {
-		tagSearchBarOpenClose(ingredientsSearchBarInput, 'ingredientsColor');
+		//preventing the tag menu from closing while trying to get focus inside
+		let parentElem = ingredientsSearchBarInput.parentElement;
+		if (!parentElem.classList.contains('tagSearchBarOpen')) {
+			tagSearchBarOpenClose(ingredientsSearchBarInput, 'ingredientsColor');
+		}
 	});
 
 	appliancesSearchBarMenu.addEventListener('click', () => {
 		tagSearchBarOpenClose(appliancesSearchBarMenu, 'appliancesColor');
 	});
 	appliancesSearchBarInput.addEventListener('focus', () => {
-		tagSearchBarOpenClose(appliancesSearchBarInput, 'appliancesColor');
-	});
-	appliancesSearchBarInput.addEventListener('blur', () => {
-		tagSearchBarOpenClose(appliancesSearchBarInput, 'appliancesColor');
+		//preventing the tag menu from closing while trying to get focus inside
+		let parentElem = appliancesSearchBarInput.parentElement;
+		if (!parentElem.classList.contains('tagSearchBarOpen')) {
+			tagSearchBarOpenClose(appliancesSearchBarInput, 'appliancesColor');
+		}
 	});
 
 	ustensilsSearchBarMenu.addEventListener('click', () => {
 		tagSearchBarOpenClose(ustensilsSearchBarMenu, 'ustensilsColor');
 	});
 	ustensilsSearchBarInput.addEventListener('focus', () => {
-		tagSearchBarOpenClose(ustensilsSearchBarInput, 'ustensilsColor');
-	});
-	ustensilsSearchBarInput.addEventListener('blur', () => {
-		tagSearchBarOpenClose(ustensilsSearchBarInput, 'ustensilsColor');
+		//preventing the tag menu from closing while trying to get focus inside
+		let parentElem = ustensilsSearchBarInput.parentElement;
+		if (!parentElem.classList.contains('tagSearchBarOpen')) {
+			tagSearchBarOpenClose(ustensilsSearchBarInput, 'ustensilsColor');
+		}
 	});
 };

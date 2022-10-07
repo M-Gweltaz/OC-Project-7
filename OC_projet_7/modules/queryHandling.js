@@ -1,4 +1,5 @@
 import { Recipe } from '../models/Recipe.js';
+import { updatedTagMenu } from './tagHandling.js';
 import {
 	recipeList,
 	ingredientsTagList,
@@ -8,6 +9,10 @@ import {
 
 // Array of the found recipes query
 let queryResultArray = [];
+
+// exporting search functionn and result
+export let searchQuery;
+export let finalSearchBarResult;
 
 export const queryHandling = () => {
 	// DOM selectors
@@ -24,9 +29,6 @@ export const queryHandling = () => {
 	const selectedTagHandling = (tagList) => {
 		// reseting the queryResultArray with full array
 		let queryResultArray = recipeList;
-
-		// // getting all the tag selected
-		// let tagList = searchingQueryTagDOM.children;
 
 		// stocking each selected tag within specific tag array
 		let ingredientSelectedTag = [];
@@ -52,46 +54,109 @@ export const queryHandling = () => {
 		let tempTagIngredientResult = [];
 		ingredientsTagList.some((ingredientItem) => {
 			ingredientSelectedTag.forEach((selectedTag) => {
-				if (selectedTag == ingredientItem.ingredient) {
-					ingredientItem.id.forEach((id) => {
-						tempTagIngredientResult.push(
-							queryResultArray.find((recipe) => recipe.id == id)
-						);
-					});
+				if (
+					selectedTag.toLowerCase() == ingredientItem.ingredient.toLowerCase()
+				) {
+					switch (true) {
+						// only one ingredient tag used
+						case tempTagIngredientResult.length == 0:
+							ingredientItem.id.forEach((id) => {
+								tempTagIngredientResult.push(
+									queryResultArray.find((recipe) => recipe.id == id)
+								);
+							});
+							break;
+
+						// multiple tag intersection needed
+						default:
+							let currentTagResults = [];
+							ingredientItem.id.forEach((id) => {
+								currentTagResults.push(
+									queryResultArray.find((recipe) => recipe.id == id)
+								);
+							});
+
+							// sorting only the recipes that match all tags
+							let intersection = tempTagIngredientResult.filter((recipe) =>
+								currentTagResults.includes(recipe)
+							);
+							tempTagIngredientResult = intersection;
+					}
 				}
 			});
 		});
-		console.log(tempTagIngredientResult);
+		console.log('INGREDIENT TAG =>', tempTagIngredientResult);
 
 		// selected tag appliance query
 		let tempTagApplianceResult = [];
 		appliancesTagList.some((applianceItem) => {
 			applianceSelectedTag.forEach((selectedTag) => {
-				if (selectedTag == applianceItem.appliance) {
-					applianceItem.id.forEach((id) => {
-						tempTagApplianceResult.push(
-							queryResultArray.find((recipe) => recipe.id == id)
-						);
-					});
+				if (
+					selectedTag.toLowerCase() == applianceItem.appliance.toLowerCase()
+				) {
+					switch (true) {
+						// only one ingredient tag used
+						case tempTagApplianceResult.length == 0:
+							applianceItem.id.forEach((id) => {
+								tempTagApplianceResult.push(
+									queryResultArray.find((recipe) => recipe.id == id)
+								);
+							});
+							break;
+
+						// multiple tag intersection needed
+						default:
+							let currentTagResults = [];
+							applianceItem.id.forEach((id) => {
+								currentTagResults.push(
+									queryResultArray.find((recipe) => recipe.id == id)
+								);
+							});
+
+							// sorting only the recipes that match all tags
+							let intersection = tempTagApplianceResult.filter((recipe) =>
+								currentTagResults.includes(recipe)
+							);
+							tempTagApplianceResult = intersection;
+					}
 				}
 			});
 		});
-		console.log(tempTagApplianceResult);
+		console.log('APPLIANCE TAG =>', tempTagApplianceResult);
 
 		// selected tag ustensil query
 		let tempTagUstensilResult = [];
 		ustensilsTagList.some((ustensilItem) => {
 			ustensilSelectedTag.forEach((selectedTag) => {
-				if (selectedTag == ustensilItem.ustensil) {
-					ustensilItem.id.forEach((id) => {
-						tempTagUstensilResult.push(
-							queryResultArray.find((recipe) => recipe.id == id)
-						);
-					});
+				if (selectedTag.toLowerCase() == ustensilItem.ustensil.toLowerCase()) {
+					switch (true) {
+						case tempTagUstensilResult.length == 0:
+							ustensilItem.id.forEach((id) => {
+								tempTagUstensilResult.push(
+									queryResultArray.find((recipe) => recipe.id == id)
+								);
+							});
+							break;
+
+						// multiple tag intersection needed
+						default:
+							let currentTagResults = [];
+							ustensilItem.id.forEach((id) => {
+								currentTagResults.push(
+									queryResultArray.find((recipe) => recipe.id == id)
+								);
+							});
+
+							// sorting only the recipes that match all tags
+							let intersection = tempTagUstensilResult.filter((recipe) =>
+								currentTagResults.includes(recipe)
+							);
+							tempTagUstensilResult = intersection;
+					}
 				}
 			});
 		});
-		console.log(tempTagUstensilResult);
+		console.log('USTENSIL TAG =>', tempTagUstensilResult);
 
 		// deleting last tag result
 		let tagResultIntersection = [];
@@ -165,27 +230,33 @@ export const queryHandling = () => {
 
 		// transforming the set as an Array
 		tagResultIntersection = [...tagResultIntersection];
-		console.log('tag result =>', tagResultIntersection);
+		console.log('TAG RESULT =>', tagResultIntersection);
 
 		return tagResultIntersection;
 	};
 
 	// Global query logic
-	const mainSearchBarQuery = (e) => {
+	searchQuery = () => {
+		// getting the value of the mainBarSearch
+		const mainSearchBarInput = searchingQueryDOM.value;
+		console.log(queryResultArray);
+
+		// handling tag logic
+		// getting all the tag selected
+		let [...tagList] = searchingQueryTagDOM.children;
+
+		// if tag used changing the scope of the search
+		tagList.length == 0
+			? (queryResultArray = recipeList)
+			: (queryResultArray = selectedTagHandling(tagList));
+
+		console.log('SCOPE =>', queryResultArray);
+
 		// only firing if 3 chars min are used for the query
-		if (e.target.value.length >= 3) {
-			// handling tag logic
-			// getting all the tag selected
-			let [...tagList] = searchingQueryTagDOM.children;
-
-			// if tag used changing the scope of the search
-			tagList.length == 0
-				? (queryResultArray = recipeList)
-				: (queryResultArray = selectedTagHandling(tagList));
-
+		if (mainSearchBarInput.length >= 3) {
 			// name searchBar query
 			let tempNameResult = queryResultArray.filter((queryResult) =>
-				queryResult.name.toLowerCase().match(e.target.value.toLowerCase())
+				queryResult.name.toLowerCase().match(mainSearchBarInput.toLowerCase())
 			);
 			console.log('name result =>', tempNameResult);
 
@@ -195,7 +266,7 @@ export const queryHandling = () => {
 				if (
 					queryResult.ingredient
 						.toLowerCase()
-						.match(e.target.value.toLowerCase())
+						.match(mainSearchBarInput.toLowerCase())
 				) {
 					queryResult.id.forEach((id) => {
 						// storing only the found recipes not the undefined one
@@ -212,18 +283,16 @@ export const queryHandling = () => {
 			let tempDescriptionResult = queryResultArray.filter((queryResult) =>
 				queryResult.description
 					.toLowerCase()
-					.match(e.target.value.toLowerCase())
+					.match(mainSearchBarInput.toLowerCase())
 			);
 			console.log('description result =>', tempDescriptionResult);
 
 			// Final searchBar result by grouping each tempResult
-			let finalSearchBarResult = new Set([
+			finalSearchBarResult = new Set([
 				...tempNameResult,
 				...tempIngredientResult,
 				...tempDescriptionResult,
 			]);
-
-			console.log(finalSearchBarResult);
 
 			// deleting last DOM result
 			searchResultDOM.innerHTML = '';
@@ -236,9 +305,37 @@ export const queryHandling = () => {
 					recipe.time,
 					recipe.description
 				);
+
+				// Updating the taglist menu with current search result
+				updatedTagMenu(finalSearchBarResult);
 			});
+		} else {
+			// deleting last DOM result
+			searchResultDOM.innerHTML = '';
+
+			finalSearchBarResult = queryResultArray;
+
+			// creating all the DOM recipeCard
+			finalSearchBarResult.forEach((recipe) => {
+				recipe.createNewRecipeCard(
+					recipe.name,
+					recipe.ingredients,
+					recipe.time,
+					recipe.description
+				);
+			});
+
+			// Updating the taglist menu with current search result
+			updatedTagMenu(finalSearchBarResult);
+		}
+
+		// Sending a message if no result found
+		if (finalSearchBarResult.size === 0) {
+			const searchResultList = document.querySelector('.searchResults');
+			searchResultList.innerHTML =
+				'<h3 class="searchResults__noResult">Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc...';
 		}
 	};
 
-	searchingQueryDOM.addEventListener('input', mainSearchBarQuery);
+	searchingQueryDOM.addEventListener('input', searchQuery);
 };

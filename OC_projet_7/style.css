@@ -280,6 +280,11 @@ main {
 	align-items: start;
 }
 
+.searchResults__noResult {
+	margin: auto;
+	font-weight: bold;
+}
+
 .recipeCard__img {
 	height: 200px;
 	width: 100%;

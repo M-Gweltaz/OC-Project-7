@@ -87,7 +87,10 @@ export class Recipe {
 			let ingredientNotAdded = true;
 			// checking if the ingredient already exist
 			ingredientsTagList.forEach((ingredientTag) => {
-				if (ingredientTag.ingredient === ingredient.ingredient) {
+				if (
+					ingredientTag.ingredient.toLowerCase() ===
+					ingredient.ingredient.toLowerCase()
+				) {
 					ingredientTag.id.push(id);
 					ingredientNotAdded = false;
 				}
@@ -107,7 +110,7 @@ export class Recipe {
 		let applianceNotAdded = true;
 		// checking if the appliance already exist
 		appliancesTagList.forEach((applianceTag) => {
-			if (applianceTag.appliance === appliance) {
+			if (applianceTag.appliance.toLowerCase() === appliance.toLowerCase()) {
 				applianceTag.id.push(id);
 				applianceNotAdded = false;
 			}
@@ -124,7 +127,7 @@ export class Recipe {
 			let ustensilNotAdded = true;
 			// checking if the ustensil already exist
 			ustensilsTagList.forEach((ustensilTag) => {
-				if (ustensilTag.ustensil === ustensil) {
+				if (ustensilTag.ustensil.toLowerCase() === ustensil.toLowerCase()) {
 					ustensilTag.id.push(id);
 					ustensilNotAdded = false;
 				}

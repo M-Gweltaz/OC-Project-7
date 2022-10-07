@@ -3,7 +3,7 @@ import { Recipe } from './models/Recipe.js';
 import { Tag } from './models/Tag.js';
 // MODULES
 import { tagHandling, tagSearchMenuHandling } from './modules/tagHandling.js';
-import { queryHandling } from './modules/queryHandling.js';
+import { queryHandling, searchQuery } from './modules/queryHandling.js';
 // DATA
 import { recipes } from './modules/data.js';
 
@@ -51,27 +51,29 @@ recipes.map((recipe) => {
 
 export { recipeList, ingredientsTagList, appliancesTagList, ustensilsTagList };
 
+export const creatingTagList = (elementTagList, element, elementDOM) => {
+	// adding each element in their respective lists
+	elementTagList.forEach((elementTag) => {
+		let content = document.createElement('li');
+
+		// creating new selected tag
+		content.addEventListener('click', (e) => {
+			const newTag = new Tag(e.target.textContent, `${element}sColor`);
+			newTag.createNewTag(e.target.textContent, `${element}sColor`);
+			// start the query
+			searchQuery();
+		});
+		content.textContent = `${elementTag[element]}`;
+		elementDOM.append(content);
+	});
+};
+
 // creating all the tags lists
 const hydratingTagList = () => {
 	// DOM ELEM
 	const ingredientListDOM = document.querySelector('#ingredientTagList');
 	const applianceListDOM = document.querySelector('#applianceTagList');
 	const ustensilListDOM = document.querySelector('#ustensilTagList');
-
-	const creatingTagList = (elementTagList, element, elementDOM) => {
-		// adding each element in their respective lists
-		elementTagList.forEach((elementTag) => {
-			let content = document.createElement('li');
-
-			// creating new selected tag
-			content.addEventListener('click', (e) => {
-				const newTag = new Tag(e.target.textContent, `${element}sColor`);
-				newTag.createNewTag(e.target.textContent, `${element}sColor`);
-			});
-			content.textContent = `${elementTag[element]}`;
-			elementDOM.append(content);
-		});
-	};
 
 	creatingTagList(ingredientsTagList, 'ingredient', ingredientListDOM);
 	creatingTagList(appliancesTagList, 'appliance', applianceListDOM);
