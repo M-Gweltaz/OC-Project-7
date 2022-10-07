@@ -85,7 +85,6 @@ export const queryHandling = () => {
 				}
 			});
 		});
-		console.log('INGREDIENT TAG =>', tempTagIngredientResult);
 
 		// selected tag appliance query
 		let tempTagApplianceResult = [];
@@ -122,7 +121,6 @@ export const queryHandling = () => {
 				}
 			});
 		});
-		console.log('APPLIANCE TAG =>', tempTagApplianceResult);
 
 		// selected tag ustensil query
 		let tempTagUstensilResult = [];
@@ -156,12 +154,11 @@ export const queryHandling = () => {
 				}
 			});
 		});
-		console.log('USTENSIL TAG =>', tempTagUstensilResult);
 
 		// deleting last tag result
 		let tagResultIntersection = [];
 
-		// checking wich result macth to get the final result
+		// checking wich result match to get the final result
 		// all tag used
 		if (
 			tempTagIngredientResult.length > 0 &&
@@ -230,7 +227,6 @@ export const queryHandling = () => {
 
 		// transforming the set as an Array
 		tagResultIntersection = [...tagResultIntersection];
-		console.log('TAG RESULT =>', tagResultIntersection);
 
 		return tagResultIntersection;
 	};
@@ -239,7 +235,6 @@ export const queryHandling = () => {
 	searchQuery = () => {
 		// getting the value of the mainBarSearch
 		const mainSearchBarInput = searchingQueryDOM.value;
-		console.log(queryResultArray);
 
 		// handling tag logic
 		// getting all the tag selected
@@ -250,15 +245,12 @@ export const queryHandling = () => {
 			? (queryResultArray = recipeList)
 			: (queryResultArray = selectedTagHandling(tagList));
 
-		console.log('SCOPE =>', queryResultArray);
-
 		// only firing if 3 chars min are used for the query
 		if (mainSearchBarInput.length >= 3) {
 			// name searchBar query
 			let tempNameResult = queryResultArray.filter((queryResult) =>
 				queryResult.name.toLowerCase().match(mainSearchBarInput.toLowerCase())
 			);
-			console.log('name result =>', tempNameResult);
 
 			// ingredient searchBar query
 			let tempIngredientResult = [];
@@ -277,7 +269,6 @@ export const queryHandling = () => {
 					});
 				}
 			});
-			console.log('ingredient result =>', tempIngredientResult);
 
 			// description search query
 			let tempDescriptionResult = queryResultArray.filter((queryResult) =>
@@ -285,7 +276,6 @@ export const queryHandling = () => {
 					.toLowerCase()
 					.match(mainSearchBarInput.toLowerCase())
 			);
-			console.log('description result =>', tempDescriptionResult);
 
 			// Final searchBar result by grouping each tempResult
 			finalSearchBarResult = new Set([

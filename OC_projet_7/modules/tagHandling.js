@@ -69,7 +69,6 @@ export const updatedTagMenu = (searchResult) => {
 		ustensilsTagList.forEach((ustensilTag) => {
 			ustensilTag.id.forEach((id) => {
 				searchResult.forEach((recipe) => {
-					// console.log(recipe.id, ustensilTag.id);
 					if (recipe.id == id) {
 						updatedUstensilTagList.push(ustensilTag);
 					}
