@@ -97,10 +97,6 @@ export const queryHandling = () => {
 							}
 
 							// sorting only the recipes that match all tags
-							// let intersection = tempTagIngredientResult.filter((recipe) =>
-							// 	arrayInclude(currentTagResults, recipe)
-							// );
-							// tempTagIngredientResult = intersection;
 							let intersection = [];
 							for (const recipe of tempTagIngredientResult) {
 								if (arrayInclude(currentTagResults, recipe)) {
@@ -138,11 +134,6 @@ export const queryHandling = () => {
 							}
 
 							// sorting only the recipes that match all tags
-							// let intersection = tempTagApplianceResult.filter((recipe) =>
-							// 	currentTagResults.includes(recipe)
-							// );
-							// tempTagApplianceResult = intersection;
-
 							let intersection = [];
 							for (const recipe of tempTagApplianceResult) {
 								if (arrayInclude(currentTagResults, recipe)) {
@@ -159,14 +150,6 @@ export const queryHandling = () => {
 		let tempTagUstensilResult = [];
 		for (const ustensilItem of ustensilsTagList) {
 			for (const selectedTag of ustensilSelectedTag) {
-				if (selectedTag == ustensilItem.ustensil) {
-					for (const id of ustensilItem.id) {
-						tempTagUstensilResult.push(
-							arrayFindById(queryResultArray, id)
-							// queryResultArray.find((recipe) => recipe.id == id)
-						);
-					}
-				}
 				if (selectedTag.toLowerCase() == ustensilItem.ustensil.toLowerCase()) {
 					switch (true) {
 						case tempTagUstensilResult.length == 0:
@@ -183,11 +166,6 @@ export const queryHandling = () => {
 							}
 
 							// sorting only the recipes that match all tags
-							// let intersection = tempTagUstensilResult.filter((recipe) =>
-							// 	currentTagResults.includes(recipe)
-							// );
-							// tempTagUstensilResult = intersection;
-
 							let intersection = [];
 							for (const recipe of tempTagUstensilResult) {
 								if (arrayInclude(currentTagResults, recipe)) {
