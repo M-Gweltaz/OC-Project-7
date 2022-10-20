@@ -222,7 +222,7 @@ export const tagHandling = () => {
 };
 
 // Checking if tag exist in the given tagList
-const checkTagName = (writenTag, tagList, item) => {
+export const checkTagName = (writenTag, tagList, item) => {
 	const searchingQueryTagDOM = document.querySelector(
 		'.searchBarModifier__tagSelected'
 	);
@@ -237,6 +237,8 @@ const checkTagName = (writenTag, tagList, item) => {
 			tagAlreadyAdded = true;
 		}
 	}
+
+	console.log(item);
 
 	let isFound = false;
 	for (const tag of tagList) {
