@@ -164,7 +164,7 @@ main {
 .searchBarModifier__input {
 	display: flex;
 	flex-wrap: wrap;
-	position: relative;
+	position: absolute;
 	align-items: flex-start;
 }
 
@@ -215,8 +215,9 @@ main {
 	color: white;
 	border-radius: 0.5em;
 	padding: 0.5em;
-	width: 650px;
+	width: 550px;
 	margin: 0 0.5em 0.5em 0;
+	z-index: 4;
 }
 
 .tagSearchBarOpen input {
@@ -228,7 +229,7 @@ main {
 	width: 100%;
 	justify-content: space-around;
 	align-items: center;
-	grid-template-columns: repeat(auto-fill, 200px);
+	grid-template-columns: repeat(auto-fill, 160px);
 	grid-gap: 0.3em;
 }
 
@@ -270,7 +271,7 @@ main {
 }
 
 .searchResults {
-	margin: 1em 0;
+	margin: 7em 0 1em 0;
 	display: grid;
 	grid-template-columns: repeat(auto-fill, 450px);
 	grid-gap: 50px;
