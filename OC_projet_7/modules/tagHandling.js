@@ -207,12 +207,33 @@ export const tagHandling = () => {
 
 // Checking if tag exist in the given tagList
 const checkTagName = (writenTag, tagList, item) => {
+	const searchingQueryTagDOM = document.querySelector(
+		'.searchBarModifier__tagSelected'
+	);
+	// getting all the tag selected
+	let [...tagSelected] = searchingQueryTagDOM.children;
+
+	let tagAlreadyAdded = false;
+	tagSelected.forEach((tag) => {
+		if (
+			tag.textContent.slice(0, -1).toLowerCase() === writenTag.toLowerCase()
+		) {
+			tagAlreadyAdded = true;
+		}
+	});
+
 	const isFound = tagList.some((tag) => {
 		if (tag[item].toLowerCase() === writenTag.toLowerCase()) {
 			return true;
 		}
 	});
-	return isFound;
+
+	// preventing the addition of the same tag occurence
+	if (tagAlreadyAdded) {
+		return false;
+	} else {
+		return isFound;
+	}
 };
 
 // Handling the openning and closing of the tagsSearchBars
