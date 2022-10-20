@@ -124,17 +124,16 @@ export const tagHandling = () => {
 		// reseting previous list
 		ingredientListDOM.innerHTML = '';
 
-		// let filteredTagList = [];
-		for (const ustensilTag of ingredientsTagList) {
+		let filteredTagList = [];
+		for (const ingredientTag of ingredientsTagList) {
 			if (
 				ingredientTag.ingredient
 					.toLowerCase()
-					.match(ustensilsSearchBarInput.value.toLowerCase())
+					.match(ingredientsSearchBarInput.value.toLowerCase())
 			) {
 				filteredTagList.push(ingredientTag);
 			}
 		}
-		tempTagApplianceResult = intersection;
 
 		creatingTagList(filteredTagList, 'ingredient', ingredientListDOM);
 	});
@@ -171,7 +170,7 @@ export const tagHandling = () => {
 			if (
 				applianceTag.appliance
 					.toLowerCase()
-					.match(ustensilsSearchBarInput.value.toLowerCase())
+					.match(appliancesSearchBarInput.value.toLowerCase())
 			) {
 				filteredTagList.push(applianceTag);
 			}
@@ -217,7 +216,6 @@ export const tagHandling = () => {
 				filteredTagList.push(ustensilTag);
 			}
 		}
-		tempTagApplianceResult = intersection;
 
 		creatingTagList(filteredTagList, 'ustensil', ustensilListDOM);
 	});
@@ -225,13 +223,34 @@ export const tagHandling = () => {
 
 // Checking if tag exist in the given tagList
 const checkTagName = (writenTag, tagList, item) => {
+	const searchingQueryTagDOM = document.querySelector(
+		'.searchBarModifier__tagSelected'
+	);
+	// getting all the tag selected
+	let [...tagSelected] = searchingQueryTagDOM.children;
+
+	let tagAlreadyAdded = false;
+	for (const tag of tagSelected) {
+		if (
+			tag.textContent.slice(0, -1).toLowerCase() === writenTag.toLowerCase()
+		) {
+			tagAlreadyAdded = true;
+		}
+	}
+
 	let isFound = false;
 	for (const tag of tagList) {
 		if (tag[item].toLowerCase() === writenTag.toLowerCase()) {
 			isFound = true;
 		}
 	}
-	return isFound;
+
+	// preventing the addition of the same tag occurence
+	if (tagAlreadyAdded) {
+		return false;
+	} else {
+		return isFound;
+	}
 };
 
 // Handling the openning and closing of the tagsSearchBars
