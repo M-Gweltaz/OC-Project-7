@@ -6,8 +6,11 @@ import {
 } from './queryHandling.js';
 import {
 	ingredientsTagList,
+	ingredientsTagListSTATE,
 	appliancesTagList,
+	appliancesTagListSTATE,
 	ustensilsTagList,
+	ustensilsTagListSTATE,
 	creatingTagList,
 } from '../app.js';
 
@@ -35,8 +38,10 @@ export const updatedTagMenu = (searchResult) => {
 		});
 		// preventing multiple same occurence
 		let cleandUpdatedIngredientTagList = new Set([...updatedIngredientTagList]);
+		// updating the TagListSTATE
+		ingredientsTagListSTATE.setState([...cleandUpdatedIngredientTagList]);
 		creatingTagList(
-			cleandUpdatedIngredientTagList,
+			ingredientsTagListSTATE.currentState,
 			'ingredient',
 			ingredientListDOM
 		);
@@ -56,8 +61,10 @@ export const updatedTagMenu = (searchResult) => {
 		});
 		// preventing multiple same occurence
 		let cleanUpdatedApplianceTagList = new Set([...updatedApplianceTagList]);
+		// updating the TagListSTATE
+		appliancesTagListSTATE.setState([...cleanUpdatedApplianceTagList]);
 		creatingTagList(
-			cleanUpdatedApplianceTagList,
+			appliancesTagListSTATE.currentState,
 			'appliance',
 			applianceListDOM
 		);
@@ -77,7 +84,13 @@ export const updatedTagMenu = (searchResult) => {
 		});
 		// preventing multiple same occurence
 		let cleanUpdatedUstensilTagList = new Set([...updatedUstensilTagList]);
-		creatingTagList(cleanUpdatedUstensilTagList, 'ustensil', ustensilListDOM);
+		// updating the TagListSTATE
+		ustensilsTagListSTATE.setState([...cleanUpdatedUstensilTagList]);
+		creatingTagList(
+			ustensilsTagListSTATE.currentState,
+			'ustensil',
+			ustensilListDOM
+		);
 	};
 	ustensilUpdatedTagMenu();
 };
@@ -97,12 +110,15 @@ export const tagHandling = () => {
 
 	// DOM LISTENER for adding new tag and updating taglist
 	ingredientsSearchBarInput.addEventListener('keydown', (e) => {
-		let ingredientTagResult = ingredientsTagList;
 		let errorMessage;
 		switch (true) {
 			case e.key == 'Enter' &&
 				e.keyCode == 13 &&
-				checkTagName(e.target.value, ingredientsTagList, 'ingredient'):
+				checkTagName(
+					e.target.value,
+					ingredientsTagListSTATE.currentState,
+					'ingredient'
+				):
 				const newTag = new Tag(e.target.value, 'ingredientsColor');
 				newTag.createNewTag(e.target.value, 'ingredientsColor');
 				// start the query
@@ -126,11 +142,13 @@ export const tagHandling = () => {
 		// reseting previous list
 		ingredientListDOM.innerHTML = '';
 
-		let filteredTagList = ingredientsTagList.filter((ingredientTag) => {
-			return ingredientTag.ingredient
-				.toLowerCase()
-				.match(ingredientsSearchBarInput.value.toLowerCase());
-		});
+		let filteredTagList = ingredientsTagListSTATE.currentState.filter(
+			(ingredientTag) => {
+				return ingredientTag.ingredient
+					.toLowerCase()
+					.match(ingredientsSearchBarInput.value.toLowerCase());
+			}
+		);
 		creatingTagList(filteredTagList, 'ingredient', ingredientListDOM);
 	});
 
@@ -139,7 +157,11 @@ export const tagHandling = () => {
 		switch (true) {
 			case e.key == 'Enter' &&
 				e.keyCode == 13 &&
-				checkTagName(e.target.value, appliancesTagList, 'appliance'):
+				checkTagName(
+					e.target.value,
+					appliancesTagListSTATE.currentState,
+					'appliance'
+				):
 				const newTag = new Tag(e.target.value, 'appliancesColor');
 				newTag.createNewTag(e.target.value, 'appliancesColor');
 				// start the query
@@ -161,11 +183,13 @@ export const tagHandling = () => {
 		// reseting previous list
 		applianceListDOM.innerHTML = '';
 
-		let filteredTagList = appliancesTagList.filter((applianceTag) => {
-			return applianceTag.appliance
-				.toLowerCase()
-				.match(appliancesSearchBarInput.value.toLowerCase());
-		});
+		let filteredTagList = appliancesTagListSTATE.currentState.filter(
+			(applianceTag) => {
+				return applianceTag.appliance
+					.toLowerCase()
+					.match(appliancesSearchBarInput.value.toLowerCase());
+			}
+		);
 		creatingTagList(filteredTagList, 'appliance', applianceListDOM);
 	});
 
@@ -174,7 +198,11 @@ export const tagHandling = () => {
 		switch (true) {
 			case e.key == 'Enter' &&
 				e.keyCode == 13 &&
-				checkTagName(e.target.value, ustensilsTagList, 'ustensil'):
+				checkTagName(
+					e.target.value,
+					ustensilsTagListSTATE.currentState,
+					'ustensil'
+				):
 				const newTag = new Tag(e.target.value, 'ustensilsColor');
 				newTag.createNewTag(e.target.value, 'ustensilsColor');
 				// start the query
@@ -196,11 +224,13 @@ export const tagHandling = () => {
 		// reseting previous list
 		ustensilListDOM.innerHTML = '';
 
-		let filteredTagList = ustensilsTagList.filter((ustensilTag) => {
-			return ustensilTag.ustensil
-				.toLowerCase()
-				.match(ustensilsSearchBarInput.value.toLowerCase());
-		});
+		let filteredTagList = ustensilsTagListSTATE.currentState.filter(
+			(ustensilTag) => {
+				return ustensilTag.ustensil
+					.toLowerCase()
+					.match(ustensilsSearchBarInput.value.toLowerCase());
+			}
+		);
 		creatingTagList(filteredTagList, 'ustensil', ustensilListDOM);
 	});
 };

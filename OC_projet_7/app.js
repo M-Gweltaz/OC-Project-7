@@ -19,6 +19,26 @@ let ingredientsTagList = [];
 let appliancesTagList = [];
 let ustensilsTagList = [];
 
+// Initialising tagLists STATE
+const ingredientsTagListSTATE = {
+	currentState: [],
+	setState(newState) {
+		ingredientsTagListSTATE.currentState = newState;
+	},
+};
+const appliancesTagListSTATE = {
+	currentState: [],
+	setState(newState) {
+		appliancesTagListSTATE.currentState = newState;
+	},
+};
+const ustensilsTagListSTATE = {
+	currentState: [],
+	setState(newState) {
+		ustensilsTagListSTATE.currentState = newState;
+	},
+};
+
 // DATA hydration
 recipes.map((recipe) => {
 	recipe = new Recipe(
@@ -43,17 +63,30 @@ recipes.map((recipe) => {
 		recipe.description
 	);
 
-	// geting all the tagList elements
+	// geting all the tagList elements AND setting their states
 	recipe.getIngredientsTagList(
 		recipe.id,
 		recipe.ingredients,
 		ingredientsTagList
 	);
+	ingredientsTagListSTATE.currentState = ingredientsTagList;
+
 	recipe.getApplianceTagList(recipe.id, recipe.appliance, appliancesTagList);
+	appliancesTagListSTATE.currentState = appliancesTagList;
+
 	recipe.getUstensilsTagList(recipe.id, recipe.ustensils, ustensilsTagList);
+	ustensilsTagListSTATE.currentState = ustensilsTagList;
 });
 
-export { recipeList, ingredientsTagList, appliancesTagList, ustensilsTagList };
+export {
+	recipeList,
+	ingredientsTagList,
+	ingredientsTagListSTATE,
+	appliancesTagList,
+	appliancesTagListSTATE,
+	ustensilsTagList,
+	ustensilsTagListSTATE,
+};
 
 export const creatingTagList = (elementTagList, element, elementDOM) => {
 	// DOM ELEM
@@ -119,9 +152,21 @@ const hydratingTagList = () => {
 	const applianceListDOM = document.querySelector('#applianceTagList');
 	const ustensilListDOM = document.querySelector('#ustensilTagList');
 
-	creatingTagList(ingredientsTagList, 'ingredient', ingredientListDOM);
-	creatingTagList(appliancesTagList, 'appliance', applianceListDOM);
-	creatingTagList(ustensilsTagList, 'ustensil', ustensilListDOM);
+	creatingTagList(
+		ingredientsTagListSTATE.currentState,
+		'ingredient',
+		ingredientListDOM
+	);
+	creatingTagList(
+		appliancesTagListSTATE.currentState,
+		'appliance',
+		applianceListDOM
+	);
+	creatingTagList(
+		ustensilsTagListSTATE.currentState,
+		'ustensil',
+		ustensilListDOM
+	);
 };
 hydratingTagList();
 
