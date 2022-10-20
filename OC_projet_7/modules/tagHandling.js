@@ -206,7 +206,7 @@ export const tagHandling = () => {
 };
 
 // Checking if tag exist in the given tagList
-const checkTagName = (writenTag, tagList, item) => {
+export const checkTagName = (writenTag, tagList, item) => {
 	const searchingQueryTagDOM = document.querySelector(
 		'.searchBarModifier__tagSelected'
 	);
@@ -222,9 +222,10 @@ const checkTagName = (writenTag, tagList, item) => {
 		}
 	});
 
-	const isFound = tagList.some((tag) => {
+	let isFound = false;
+	tagList.forEach((tag) => {
 		if (tag[item].toLowerCase() === writenTag.toLowerCase()) {
-			return true;
+			isFound = true;
 		}
 	});
 

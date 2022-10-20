@@ -2,7 +2,11 @@
 import { Recipe } from './models/Recipe.js';
 import { Tag } from './models/Tag.js';
 // MODULES
-import { tagHandling, tagSearchMenuHandling } from './modules/tagHandling.js';
+import {
+	tagHandling,
+	checkTagName,
+	tagSearchMenuHandling,
+} from './modules/tagHandling.js';
 import { queryHandling, searchQuery } from './modules/queryHandling.js';
 // DATA
 import { recipes } from './modules/data.js';
@@ -52,16 +56,56 @@ recipes.map((recipe) => {
 export { recipeList, ingredientsTagList, appliancesTagList, ustensilsTagList };
 
 export const creatingTagList = (elementTagList, element, elementDOM) => {
+	// DOM ELEM
+	const ingredientsSearchBarInput = document.querySelector(
+		'#ingredientsSearchBarInput'
+	);
+	const appliancesSearchBarInput = document.querySelector(
+		'#appliancesSearchBarInput'
+	);
+	const ustensilsSearchBarInput = document.querySelector(
+		'#ustensilsSearchBarInput'
+	);
+
 	// adding each element in their respective lists
 	elementTagList.forEach((elementTag) => {
 		let content = document.createElement('li');
 
 		// creating new selected tag
 		content.addEventListener('click', (e) => {
-			const newTag = new Tag(e.target.textContent, `${element}sColor`);
-			newTag.createNewTag(e.target.textContent, `${element}sColor`);
-			// start the query
-			searchQuery();
+			if (checkTagName(e.target.textContent, elementTagList, `${element}`)) {
+				const newTag = new Tag(e.target.textContent, `${element}sColor`);
+				newTag.createNewTag(e.target.textContent, `${element}sColor`);
+				// start the query
+				searchQuery();
+			} else {
+				switch (true) {
+					case element == 'ingredient':
+						setTimeout(() => {
+							ingredientsSearchBarInput.classList.add('wrongInput');
+						}, 0);
+						setTimeout(() => {
+							ingredientsSearchBarInput.classList.remove('wrongInput');
+						}, 3000);
+						break;
+					case element == 'appliance':
+						setTimeout(() => {
+							appliancesSearchBarInput.classList.add('wrongInput');
+						}, 0);
+						setTimeout(() => {
+							appliancesSearchBarInput.classList.remove('wrongInput');
+						}, 3000);
+						break;
+					case element == 'ustensil':
+						setTimeout(() => {
+							ustensilsSearchBarInput.classList.add('wrongInput');
+						}, 0);
+						setTimeout(() => {
+							ustensilsSearchBarInput.classList.remove('wrongInput');
+						}, 3000);
+						break;
+				}
+			}
 		});
 		content.textContent = `${elementTag[element]}`;
 		elementDOM.append(content);
