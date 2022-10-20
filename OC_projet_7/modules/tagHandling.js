@@ -6,8 +6,11 @@ import {
 } from './queryHandling.js';
 import {
 	ingredientsTagList,
+	ingredientsTagListSTATE,
 	appliancesTagList,
+	appliancesTagListSTATE,
 	ustensilsTagList,
+	ustensilsTagListSTATE,
 	creatingTagList,
 } from '../app.js';
 
@@ -35,8 +38,11 @@ export const updatedTagMenu = (searchResult) => {
 		}
 		// preventing multiple same occurence
 		let cleandUpdatedIngredientTagList = new Set([...updatedIngredientTagList]);
+		// updating the TagListSTATE
+		ingredientsTagListSTATE.setState([...cleandUpdatedIngredientTagList]);
 		creatingTagList(
-			cleandUpdatedIngredientTagList,
+			ingredientsTagListSTATE.currentState,
+
 			'ingredient',
 			ingredientListDOM
 		);
@@ -56,8 +62,10 @@ export const updatedTagMenu = (searchResult) => {
 		}
 		// preventing multiple same occurence
 		let cleanUpdatedApplianceTagList = new Set([...updatedApplianceTagList]);
+		// updating the TagListSTATE
+		appliancesTagListSTATE.setState([...cleanUpdatedApplianceTagList]);
 		creatingTagList(
-			cleanUpdatedApplianceTagList,
+			appliancesTagListSTATE.currentState,
 			'appliance',
 			applianceListDOM
 		);
@@ -77,7 +85,13 @@ export const updatedTagMenu = (searchResult) => {
 		}
 		// preventing multiple same occurence
 		let cleanUpdatedUstensilTagList = new Set([...updatedUstensilTagList]);
-		creatingTagList(cleanUpdatedUstensilTagList, 'ustensil', ustensilListDOM);
+		// updating the TagListSTATE
+		ustensilsTagListSTATE.setState([...cleanUpdatedUstensilTagList]);
+		creatingTagList(
+			ustensilsTagListSTATE.currentState,
+			'ustensil',
+			ustensilListDOM
+		);
 	};
 	ustensilUpdatedTagMenu();
 };
@@ -97,12 +111,15 @@ export const tagHandling = () => {
 
 	// DOM LISTENER for adding new tag and updating taglist
 	ingredientsSearchBarInput.addEventListener('keydown', (e) => {
-		let ingredientTagResult = ingredientsTagList;
 		let errorMessage;
 		switch (true) {
 			case e.key == 'Enter' &&
 				e.keyCode == 13 &&
-				checkTagName(e.target.value, ingredientsTagList, 'ingredient'):
+				checkTagName(
+					e.target.value,
+					ingredientsTagListSTATE.currentState,
+					'ingredient'
+				):
 				const newTag = new Tag(e.target.value, 'ingredientsColor');
 				newTag.createNewTag(e.target.value, 'ingredientsColor');
 				// start the query
@@ -125,7 +142,7 @@ export const tagHandling = () => {
 		ingredientListDOM.innerHTML = '';
 
 		let filteredTagList = [];
-		for (const ingredientTag of ingredientsTagList) {
+		for (const ingredientTag of ingredientsTagListSTATE.currentState) {
 			if (
 				ingredientTag.ingredient
 					.toLowerCase()
@@ -143,7 +160,11 @@ export const tagHandling = () => {
 		switch (true) {
 			case e.key == 'Enter' &&
 				e.keyCode == 13 &&
-				checkTagName(e.target.value, appliancesTagList, 'appliance'):
+				checkTagName(
+					e.target.value,
+					appliancesTagListSTATE.currentState,
+					'appliance'
+				):
 				const newTag = new Tag(e.target.value, 'appliancesColor');
 				newTag.createNewTag(e.target.value, 'appliancesColor');
 				// start the query
@@ -166,7 +187,7 @@ export const tagHandling = () => {
 		applianceListDOM.innerHTML = '';
 
 		let filteredTagList = [];
-		for (const applianceTag of appliancesTagList) {
+		for (const applianceTag of appliancesTagListSTATE.currentState) {
 			if (
 				applianceTag.appliance
 					.toLowerCase()
@@ -184,7 +205,11 @@ export const tagHandling = () => {
 		switch (true) {
 			case e.key == 'Enter' &&
 				e.keyCode == 13 &&
-				checkTagName(e.target.value, ustensilsTagList, 'ustensil'):
+				checkTagName(
+					e.target.value,
+					ustensilsTagListSTATE.currentState,
+					'ustensil'
+				):
 				const newTag = new Tag(e.target.value, 'ustensilsColor');
 				newTag.createNewTag(e.target.value, 'ustensilsColor');
 				// start the query
@@ -207,7 +232,7 @@ export const tagHandling = () => {
 		ustensilListDOM.innerHTML = '';
 
 		let filteredTagList = [];
-		for (const ustensilTag of ustensilsTagList) {
+		for (const ustensilTag of ustensilsTagListSTATE.currentState) {
 			if (
 				ustensilTag.ustensil
 					.toLowerCase()
@@ -237,8 +262,6 @@ export const checkTagName = (writenTag, tagList, item) => {
 			tagAlreadyAdded = true;
 		}
 	}
-
-	console.log(item);
 
 	let isFound = false;
 	for (const tag of tagList) {
